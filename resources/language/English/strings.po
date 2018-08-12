@@ -1,0 +1,38 @@
+# Kodi Media Center language file
+# Addon Name: PIA VPN
+# Addon id: program.plexusscraper
+# Addon Provider: JeremyC
+msgid ""
+msgstr ""
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+
+msgctxt "#40100"
+msgid "URL choice to Scrape"
+msgstr ""
+
+msgctxt "#40101"
+msgid "Url #1: "
+msgstr ""
+
+msgctxt "#40102"
+msgid "Url #2: "
+msgstr ""
+
+msgctxt "#40103"
+msgid "Url #3: "
+msgstr ""
+
+msgctxt "#40104"
+msgid "Url #4: "
+msgstr ""
+
+msgctxt "#40105"
+msgid "Url #5: "
+msgstr ""

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+   <category label="40100">
+      <setting id="url_1" type="text" label="40101" default="http://test1"/>
+      <setting id="url_2" type="text" label="40102" default="http://test2"/>
+      <setting id="url_3" type="text" label="40103" default="http://test3"/>
+      <setting id="url_4" type="text" label="40104" default="http://test4"/>
+      <setting id="url_5" type="text" label="40105" default="file:///storage/.kodi/addons/plugin.program.plexusscraper/resources/test.html"/>
+   </category>
+</settings>
