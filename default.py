@@ -4,9 +4,10 @@
     urls from a web page. Currently up to 5 different pages to be
     scraped can be saved in the settings page. It is also possible
     to save raw acestream links, including a leading link name.
-    The purpose of the plugin is to generate a "history.txt"
-    file to be used by the official Plexus addon. This addon
-    effectively automates the generation of the history.txt file.
+    The purpose of the plugin is to generate a Plexus "history.txt"
+    file, which is used by the official Plexus addon. This addon
+    effectively automates the generation of a Plexus "history.txt" 
+    file.
 
     This addon directory needs to be installed here:
     /storage/.kodi/addons/plugin.program.plexusscraper
@@ -20,7 +21,7 @@
     o Example using curl.exe from Windows (download pre-built curl.exe from: https://curl.haxx.se/dlwiz/?type=bin):
     curl.exe --header "Content-Type: application/json" --data-binary "{ \"id\":1, \"jsonrpc\":\"2.0\", \"method\":\"Addons.ExecuteAddon\", \"params\":{ \"addonid\":\"program.plexusscraper\", \"params\":{ \"url_path\": \"http://rptest.html\", \"mode\":\"addurl\", \"url_id\":\"3\" }}}" http://192.168.1.229/jsonrpc
 
-    13th May 2018
+    JeremyC 13th May 2018
 """
 
 import json
