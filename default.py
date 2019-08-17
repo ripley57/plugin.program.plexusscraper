@@ -21,7 +21,7 @@
     o Example using curl.exe from Windows (download pre-built curl.exe from: https://curl.haxx.se/dlwiz/?type=bin):
     curl.exe --header "Content-Type: application/json" --data-binary "{ \"id\":1, \"jsonrpc\":\"2.0\", \"method\":\"Addons.ExecuteAddon\", \"params\":{ \"addonid\":\"program.plexusscraper\", \"params\":{ \"url_path\": \"http://rptest.html\", \"mode\":\"addurl\", \"url_id\":\"3\" }}}" http://192.168.1.229/jsonrpc
 
-    JeremyC 13th May 2018
+    13th May 2018
 """
 
 import json
@@ -76,7 +76,6 @@ __test_html__ = 'file:///storage/.kodi/addons/plugin.program.plexusscraper/resou
 __addonsettingsxmlpath__= 'file:///storage/.kodi/userdata/addon_data/program.plexusscraper/settings.xml'
 
 
-
 def build_addon_url(query):
 	return __base_url__ + '?' + urllib.urlencode(query)
 
@@ -120,12 +119,23 @@ def add_raw_acestream_entries_to_history_file(output_stream):
 	count = 0
 	proc = subprocess.Popen(["/storage/.kodi/addons/plugin.program.plexusscraper/acestreamsfromxml.php"], stdout=subprocess.PIPE)
 	links = proc.communicate()[0]
-	print("JCDC: links=" + links)
 	for match in re.finditer('(.*)\|(acestream://.*\n)', links):
         	count = count + 1
         	name = match.group(1).rstrip()
         	link = match.group(2).rstrip()
-		fprintf(output_stream,"%s|%s|1|/storage /.kodi/addons/program.plexus/resources/art/acestream-menu-item.png\n", name, link)
+		fprintf(output_stream,"%s|%s|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png\n", name, link)
+   	return count
+
+
+def add_raw_sopcast_entries_to_history_file(output_stream):
+	count = 0
+	proc = subprocess.Popen(["/storage/.kodi/addons/plugin.program.plexusscraper/acestreamsfromxml.php"], stdout=subprocess.PIPE)
+	links = proc.communicate()[0]
+	for match in re.finditer('(.*)\|(sop://.*\n)', links):
+        	count = count + 1
+        	name = match.group(1).rstrip()
+        	link = match.group(2).rstrip()
+        	fprintf(output_stream,"%s|%s|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg\n", name, link)
    	return count
 
 
@@ -141,6 +151,15 @@ def is_url(arg):
 	if matchObj:
 		rtn = True
 	#debug("is_url()", "arg=" + arg + ", rtn=" + str(rtn))
+	return rtn
+
+
+def is_html(arg):
+	rtn = False
+	matchObj = re.match('.*\.(html|htm)', arg)
+	if matchObj:
+		rtn = True
+	#debug("is_html()", "arg=" + arg + ", rtn=" + str(rtn))
 	return rtn
 	
 	
@@ -180,6 +199,26 @@ def create_plexus_history_file(url_path):
 		except Exception, e:
 			xbmcgui.Dialog().ok("ERROR: Failed to download url", "URL: " + url_path + "\n" + str(e))
 			return 0, 0
+
+	elif is_html(url_path):
+		# Read local html file into a string.
+		html_file = open(url_path, 'r')
+		html = html_file.read()
+		html_file.close()
+		#debug("Size of html file:", str(len(html)))
+
+		# Create locally built history file 
+		ofh = open(__built_history_file__,'w')
+		count_acestream = add_acestream_entries_to_history_file(ofh, html)
+		count_sopcast = add_sopcast_entries_to_history_file(ofh, html)
+		ofh.close()
+
+	elif SopcastHelper.is_raw_sopcast(url_path):
+		# The user clicked on a raw sopcast link - we will
+		# add only the raw sopcast links to the history file.
+		ofh = open(__built_history_file__,'w')
+		count_sopcast = add_raw_sopcast_entries_to_history_file(ofh)
+		ofh.close()
 			
 	elif AcestreamHelper.is_raw_acestream(url_path):
 		# The user clicked on a raw acestream link - we will
@@ -243,7 +282,9 @@ if mode=='none':
     add_menu()
 
 elif mode[0]=='scrape':
+    # User has clicked on a url to process.
     url_path = __args__['url_path'][0]
+
     (acestream_links, sopcast_links) = create_plexus_history_file(url_path)
     if (acestream_links > 0 or sopcast_links > 0):
         try:
