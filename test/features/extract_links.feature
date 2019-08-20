@@ -13,8 +13,9 @@ Scenario Outline: Extract links given the path to a local file
   | test/resources/html/sample_2.html | 7         | 5         |
 
 
-# Moved this to feature level (see top of this file), because here it was triggering 
-# the fixture method to start the web server for each individual test, which isn't needed.
+# Moved this to feature tag to be feature-level rather than scenario-level (see top of this file).
+# This is because here it was triggering the fixture method to start the web server for each 
+# individual test, which isn't needed, or ideal.
 #@fixture.webserver
 Scenario Outline: Extract links given a url
   Given the url <url>
@@ -23,6 +24,6 @@ Scenario Outline: Extract links given a url
 
   Examples:
   | url                                 | ace_count | sop_count |
-  | http://localhost:9000/sample_1.html | 5         | 4         |
-  | http://localhost:9000/sample_2.html | 7         | 5         |
+  | http://localhost:9090/sample_1.html | 5         | 4         |
+  | http://localhost:9090/sample_2.html | 7         | 5         |
 

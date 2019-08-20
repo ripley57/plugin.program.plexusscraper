@@ -1,7 +1,7 @@
+import os
 import re
 import bs4
 
-from plexusscraper.urldownloader import URLDownloader
 
 class Scraper:
 	def __init__(self):
@@ -59,15 +59,9 @@ class Scraper:
 		return False
 
 	@classmethod
-	def extract_links_from_url(cls, url, extract_acestream=True, extract_sopcast=True):
-		""" Download url and extract acestream and/or sopcast links """
-		downloader = URLDownloader()
-		text = downloader.download(url)
-		return Scraper.extract_links_from_text(text)
-
-	@classmethod
 	def extract_links_from_file(cls, file_path, extract_acestream=True, extract_sopcast=True):
 		""" Extract acestream and/or sopcast links from the specified file """
+		print("JCDC: os.getcwd()={}".format(os.getcwd()))
 		f = open(file_path, 'r')
 		text = f.read()
 		f.close()

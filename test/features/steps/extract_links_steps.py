@@ -1,6 +1,8 @@
-from behave import given, when, then
-from plexusscraper.scraper import Scraper
 import os
+from behave import given, when, then
+
+from plexusscraper.scraper import Scraper
+from plexusscraper.urldownloader import URLDownloader
 
 
 @given(u'the local file {file_path}')
@@ -21,8 +23,10 @@ def step_impl(context):
 
 @when(u'I download and extract all links')
 def step_impl(context):
+	downloader = URLDownloader()
+	(status, text) = downloader.download(context.url)
 	scraper = Scraper()
-	context.result = scraper.extract_links_from_url(context.url)
+	context.result = scraper.extract_links_from_text(text)
 
 
 @then(u'I should get {ace_count:d} acestream links and {sop_count:d} sopcast links')
