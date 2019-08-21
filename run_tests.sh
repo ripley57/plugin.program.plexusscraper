@@ -38,7 +38,7 @@ function acceptance_tests()
 #behave --tags=wip test/features/
 #
 # Run acceptance tests.
-behave test/features/
+behave test/features/ --junit
 }
 
 
