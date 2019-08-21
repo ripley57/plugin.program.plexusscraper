@@ -1,4 +1,4 @@
-from plexusscraper.scraper import Scraper
+from plexusscraper.linkservice import LinkService
 
 class PlexusHistoryFile:
 
@@ -58,31 +58,21 @@ class PlexusHistoryFile:
 		return title + "|" + link + self.__class__.SOP_SUFFIX
 
 
-	def add_acestream_urls(self, urls):
-		for x in urls:
-			if Scraper.is_acestream_link(x):
-				self.ace_list.append(('', x))
-	
-		
-	def add_sopcast_urls(self, urls):
-		for x in urls:
-			if Scraper.is_sopcast_link(x):
-				self.sop_list.append(('', x))
+	def __create_link_tuple(self, x):
+		if isinstance(x, tuple):
+			title = x[0]
+			link = x[1]
+		else:
+			title = ''
+			link = x
+		return (title, link)
 
 
-	def add_raw_urls(self, urls):
-		for x in urls.split(","):
-			if x.find("|") > 0:
-				title = x.split("|")[0]
-				link = x.split("|")[1]
-			else:
-				title = ''
-				link = x
-			if Scraper.is_acestream_link(link):
+	def add_urls(self, urls):
+		for x in urls:
+			(title, link) = self.__create_link_tuple(x)
+			if LinkService.is_acestream_link(link):
 				self.ace_list.append((title, link))
-			elif Scraper.is_sopcast_link(link):
+			elif LinkService.is_sopcast_link(link):
 				self.sop_list.append((title, link))
-			else:
-				pass
-
 

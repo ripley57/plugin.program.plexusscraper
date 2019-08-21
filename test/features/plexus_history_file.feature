@@ -39,12 +39,12 @@ Scenario: Create a history file from html containing acestream and sopcast urls
      SOP_03|sop://broker.sopcast.com:3912/265589|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg
      """
 
-Scenario: Create a history file from raw acestream and sopcast urls
-  Given the following list of raw urls
+Scenario: Create a history file from a string of raw acestream and sopcast urls
+  Given the following string of raw urls
      """
      SOP_EX_1|sop://broker.sopcast.com:3912/26475,sop://broker.sopcast.com:3912/265589,ACE 1|acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9,acestream://c389afdd68246467538cec05eace0ca6410e4bb4
      """
-   When I generate a plexus history file from the list of raw urls
+   When I generate a plexus history file from a string of raw urls
    Then I expect the plexus history file to look like this
      """
      ACE 1|acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png

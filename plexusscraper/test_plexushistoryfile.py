@@ -4,6 +4,7 @@
 import unittest
 
 from plexusscraper.plexushistoryfile import PlexusHistoryFile
+from plexusscraper.linkservice import LinkService
 
 
 class TestPlexusHistoryFile(unittest.TestCase):
@@ -18,7 +19,7 @@ ACE_02|acestream://c389afdd68246467538cec05eace0ca6410e4bb4|1|/storage/.kodi/add
 ACE_03|acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png\
 """
 		history_file = PlexusHistoryFile()
-		history_file.add_acestream_urls(urls)
+		history_file.add_urls(urls)
 		self.assertEqual(history_file.text, expected_content, 'acestream urls not handled correctly')
 
 
@@ -32,7 +33,7 @@ SOP_02|sop://broker.sopcast.com:3912/264750|2|/storage/.kodi/addons/program.plex
 SOP_03|sop://broker.sopcast.com:3912/265589|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg\
 """
 		history_file = PlexusHistoryFile()
-		history_file.add_sopcast_urls(urls)
+		history_file.add_urls(urls)
 		self.assertEqual(history_file.text, expected_content, 'sopcast urls not handled correctly')
 
 
@@ -45,7 +46,7 @@ SOP_01|sop://broker.sopcast.com:3912/265589|2|/storage/.kodi/addons/program.plex
 SOP_EX_1|sop://broker.sopcast.com:3912/26475|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg\
 """
 		history_file = PlexusHistoryFile()
-		history_file.add_raw_urls(raw_urls)
+		links = LinkService.extract_links_from_string(raw_urls)
+		history_file.add_urls(links)
 		self.assertEqual(history_file.text, expected_content, 'raw acestream or sopcast urls not handled correctly')
-
 
