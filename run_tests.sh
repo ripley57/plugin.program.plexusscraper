@@ -63,5 +63,9 @@ case $target in
 "unit")
 	unit_tests
 	;;
+"all")	
+	unit_tests
+	acceptance_tests
+	;;
 esac
 
