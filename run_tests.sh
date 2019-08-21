@@ -9,7 +9,6 @@
 #
 #	Run unit tests:
 #		./run_tests unit
-
 target=${1:-acceptance}		;# By default run acceptance tests
 
 
