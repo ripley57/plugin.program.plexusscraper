@@ -65,10 +65,10 @@ class Scraper:
 		f = open(file_path, 'r')
 		text = f.read()
 		f.close()
-		return Scraper.extract_links_from_text(text)
+		return Scraper.extract_links_from_html(text)
 
 	@classmethod
-	def extract_links_from_text(cls, text):
+	def extract_links_from_html(cls, text):
 		bs = bs4.BeautifulSoup(text, "html.parser")
 		# Get all <a> elements.
 		a_list = bs("a")

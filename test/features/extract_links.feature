@@ -13,10 +13,6 @@ Scenario Outline: Extract links given the path to a local file
   | test/resources/html/sample_2.html | 7         | 5         |
 
 
-# Moved this to feature tag to be feature-level rather than scenario-level (see top of this file).
-# This is because here it was triggering the fixture method to start the web server for each 
-# individual test, which isn't needed, or ideal.
-#@fixture.webserver
 Scenario Outline: Extract links given a url
   Given the url <url>
    When I download and extract all links

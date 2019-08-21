@@ -1,3 +1,10 @@
+""" Unit tests for the URLDownloader class.
+
+	NOTE: 	This probably shouldn't be a unit test, since it inserts a several
+		second delay to wait for the web server to start. This therefore
+		should probably be an integration test.
+"""
+
 import subprocess
 import time
 import unittest
