@@ -7,4 +7,3 @@ class PlexusScraper:
 	@classmethod
 	def extract_links_from_html(cls, html):
 		return LinkService.extract_links_from_html(html)
-

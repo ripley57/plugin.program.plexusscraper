@@ -1,4 +1,6 @@
 from plexusscraper.linkservice import LinkService
+from plexusscraper.urldownloader import URLDownloader
+
 
 class PlexusHistoryFile:
 
@@ -75,4 +77,25 @@ class PlexusHistoryFile:
 				self.ace_list.append((title, link))
 			elif LinkService.is_sopcast_link(link):
 				self.sop_list.append((title, link))
+
+	def add_links_from_html(self, html):
+		links = LinkService.extract_links_from_html(html)
+		self.add_urls(links)
+
+	
+	def add_links_from_string(self, s):
+		links = LinkService.extract_links_from_string(s)
+		self.add_urls(links)
+		pass
+
+	
+	def add_links_from_file(self, path):
+		links = LinkService.extract_links_from_file(path)
+		self.add_urls(links)
+
+	
+	def add_links_from_url(self, url):
+		(status, html) = URLDownloader.download(url)
+		links = LinkService.extract_links_from_html(html)
+		self.add_urls(links)
 
