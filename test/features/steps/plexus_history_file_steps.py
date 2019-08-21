@@ -1,3 +1,4 @@
+import os
 from behave import given, when, then
 
 from plexusscraper.plexushistoryfile import PlexusHistoryFile
@@ -21,6 +22,26 @@ def step_impl(context):
 @given(u'a web url {url}')
 def step_impl(context, url):
 	context.url = url
+
+
+def remove_file(filename):
+	try:
+		os.remove(filename)
+	except OSError:
+		pass
+
+
+@when(u'I generate a plexus history file from a downloaded web page and save to a txt file')
+def step_impl(context):
+	context.history_file = PlexusHistoryFile()
+	context.history_file.add_links_from_url(context.url)
+	filename = "/tmp/history.txt.feature_test"
+	remove_file(filename)
+	context.history_file.save_to_file(filename)
+	f = open(filename, 'r')
+	context.text = f.read()
+	f.close()
+	#remove_file(filename)
 
 
 @when(u'I generate a plexus history file from a downloaded web page')

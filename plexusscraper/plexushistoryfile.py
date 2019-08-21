@@ -18,6 +18,13 @@ class PlexusHistoryFile:
 		return "\n".join(lines)
 
 
+	def save_to_file(self, path):
+		f = open(path, 'w')
+		content = self.text
+		f.write(content)
+		f.close()
+
+
 	def __add_missing_titles(self, items, prefix):
 		""" Given a list of (title,link) types, add any missing title values """
 
