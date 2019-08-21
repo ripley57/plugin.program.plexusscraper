@@ -20,7 +20,7 @@ ACE_03|acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9|1|/storage/.kodi/add
 """
 		history_file = PlexusHistoryFile()
 		history_file.add_acestream_urls(urls)
-		assert(history_file.text == expected_content)
+		self.assertEqual(history_file.text, expected_content, 'acestream urls not handled correctly')
 
 
 	def test_add_sopcast_urls(self):
@@ -34,7 +34,7 @@ SOP_03|sop://broker.sopcast.com:3912/265589|2|/storage/.kodi/addons/program.plex
 """
 		history_file = PlexusHistoryFile()
 		history_file.add_sopcast_urls(urls)
-		assert(history_file.text == expected_content)
+		self.assertEqual(history_file.text, expected_content, 'sopcast urls not handled correctly')
 
 
 	def test_add_raw_urls(self):
@@ -47,5 +47,6 @@ SOP_EX_1|sop://broker.sopcast.com:3912/26475|2|/storage/.kodi/addons/program.ple
 """
 		history_file = PlexusHistoryFile()
 		history_file.add_raw_urls(raw_urls)
-		assert(history_file.text == expected_content)
+		self.assertEqual(history_file.text, expected_content, 'raw acestream or sopcast urls not handled correctly')
+
 

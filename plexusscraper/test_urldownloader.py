@@ -29,5 +29,5 @@ class TestURLDownloader(unittest.TestCase):
 		downloader = URLDownloader()
 		(status, text) = downloader.download('http://localhost:9090/sample_1.html')
 		#print("status=", status)
-		self.assertTrue(status == 200 and len(text) > 0)
+		self.assertTrue(status == 200 and len(text) > 0, 'web page not downloaded')
 
