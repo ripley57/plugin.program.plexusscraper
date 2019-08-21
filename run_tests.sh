@@ -50,9 +50,13 @@ function unit_tests()
 # * Consider using pytest instead of the standard unittest module.
 # * Create separate integration tests.
 #
-# Run unit tests
+# Run unit tests using unittest
 # See https://docs.python.org/2/library/unittest.html
-python3 -m unittest plexusscraper/test_*.py
+#python3 -m unittest plexusscraper/test_*.py
+#
+# Run unit tests using pytest
+# See https://docs.pytest.org/
+pytest plexusscraper -v
 }
 
 
