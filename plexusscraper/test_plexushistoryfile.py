@@ -4,7 +4,6 @@
 import unittest
 
 from plexusscraper.plexushistoryfile import PlexusHistoryFile
-from plexusscraper.scraper import Scraper
 
 
 class TestPlexusHistoryFile(unittest.TestCase):

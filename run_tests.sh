@@ -1,3 +1,20 @@
+#!/usr/bin/env bash
+#
+# Description:
+#	Run tests
+#
+# Usage:
+#	Run acceptance tests:
+#		./run_tests [acceptance]
+#
+#	Run unit tests:
+#		./run_tests unit
+
+target=${1:-acceptance}		;# By default run acceptance tests
+
+
+function acceptance_tests()
+{
 # Acceptance tests.
 #
 # Introduction to Python Behave:
@@ -23,8 +40,11 @@
 #
 # Run acceptance tests.
 behave test/features/
+}
 
 
+function unit_tests()
+{
 # Unit tests.
 #
 # TODO: 
@@ -33,5 +53,16 @@ behave test/features/
 #
 # Run unit tests
 # See https://docs.python.org/2/library/unittest.html
-#python3 -m unittest discover -v -s plexusscraper -p "test_*.py"
+python3 -m unittest plexusscraper/test_*.py
+}
+
+
+case $target in
+"acceptance")
+	acceptance_tests
+	;;
+"unit")
+	unit_tests
+	;;
+esac
 
