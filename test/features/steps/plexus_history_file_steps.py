@@ -1,6 +1,6 @@
 from behave import given, when, then
 
-from plexusscraper.scraper import Scraper
+from plexusscraper.plexusscraper import PlexusScraper
 from plexusscraper.plexushistoryfile import PlexusHistoryFile
 
 
@@ -16,8 +16,7 @@ def step_impl(context):
 
 @when(u'I generate a plexus history file from the html')
 def step_impl(context):
-	scraper = Scraper()
-	context.result = scraper.extract_links_from_html(context.html)
+	context.result = PlexusScraper.extract_links_from_html(context.html)
 	ace_list = context.result['acestream']
 	sop_list = context.result['sopcast']
 	context.history_file = PlexusHistoryFile()
@@ -29,7 +28,6 @@ def step_impl(context):
 def step_impl(context):
 	context.history_file = PlexusHistoryFile()
 	context.history_file.add_raw_urls(context.raw_urls)
-	print("JCDC: context.history_file.text=", context.history_file.text)
 
 
 @then(u'I expect the plexus history file to look like this')
