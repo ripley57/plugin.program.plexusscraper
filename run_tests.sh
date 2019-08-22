@@ -65,7 +65,8 @@ function run_unit_tests()
 # a much nicer output than using "python -m unittest".
 #
 # Options passed:
-#	--setup-show		Display output from fixtures.
+#	--setup-show		Display full output from fixtures.
+#	--fixtures test.py	List all fixtures available.
 #
 pytest tests/unit -vv --setup-show "$@"
 }
