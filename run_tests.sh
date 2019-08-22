@@ -42,11 +42,11 @@ function run_acceptance_tests()
 # reporting tools such as Thucydides.
 #
 # The "-w" option is a shorthand for "--tags=@wip". 
-# This can we used to only run specific features/scenarios. See:
+# This can we used to only run specific acceptance/scenarios. See:
 # https://behave.readthedocs.io/en/latest/tutorial.html?highlight=tags#controlling-things-with-tags
-#behave -w test/features
+#behave -w test/acceptance
 #
-behave tests/features/ --junit "$@"
+behave tests/acceptance/ --junit "$@"
 }
 
 
