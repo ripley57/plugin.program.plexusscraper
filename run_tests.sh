@@ -64,7 +64,10 @@ function run_unit_tests()
 # standard library. pytest provides additional features, plus it produces 
 # a much nicer output than using "python -m unittest".
 #
-pytest tests/unit -vv "$@"
+# Options passed:
+#	--setup-show		Display output from fixtures.
+#
+pytest tests/unit -vv --setup-show "$@"
 }
 
 
