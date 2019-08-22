@@ -5,71 +5,70 @@
 #
 # Usage:
 #	Run acceptance tests:
-#		./run_tests [acceptance]
+#		./run_tests [unit|acceptance|all]
 #
 #	Run unit tests:
 #		./run_tests unit
-target=${1:-acceptance}		;# By default run acceptance tests
+
+target=${1:-unit}
 
 
-function acceptance_tests()
+# In order for our test modules (in the "tests/" directory) to be able to
+# import the packages we are testing (in the "src/" directory), we can use
+# "pip install -e ." to install a "<package-name>.egg-link" file under 
+# our Python installation. Instead of installing copies of a package, this
+# creates a link back to the files in this directory. This works because
+# we have a "setup.py" file in this directory. The "-e" option also means
+# we can make changes to the files and re-test without having to re-install.
+if ! pip show plexusscraper >/dev/null 2>&1 ; then
+	pip install -e .
+fi
+
+
+function run_acceptance_tests()
 {
-# Acceptance tests.
+# Acceptance tests using Python Behave (https://behave.readthedocs.io/en/latest/)
 #
-# Introduction to Python Behave:
-# https://semaphoreci.com/community/tutorials/getting-started-with-behavior-testing-in-python-with-behave
-# Python Behave docs:
-# https://behave.readthedocs.io/en/latest/
+# The "--junit" option generates JUnit-compatible test reports, for use with
+# reporting tools such as Thucydides.
 #
-# NOTE:
-# A useful behave option is "--junit" option, which generates JUnit-compatible
-# test reports in the "reports" directory. This makes it easy to incorporate Behave 
-# tests into your build process using a continuous integration server, and also allows 
-# for more sophisticated reporting with Thucydides.
-#
-# Note "-w" is a shorthand for "--tags=@wip", and seems to be the best option when working
-# on a new feature/scenario and you don't want to run/see the other features/scenarios. See:
+# The "-w" option is a shorthand for "--tags=@wip". 
+# This can we used to only run specific features/scenarios. See:
 # https://behave.readthedocs.io/en/latest/tutorial.html?highlight=tags#controlling-things-with-tags
 #behave -w test/features
 #
-# Filtering to only see the one feature I'm working on, using this, doesn't seem to
-# work very well. Sure the other feature(s) are being run, but I still see a lot of
-# 'noise' from them in the output.
-#behave --tags=wip test/features/
-#
-# Run acceptance tests.
-behave test/features/ --junit
+behave tests/features/ --junit
 }
 
 
-function unit_tests()
+function run_unit_tests()
 {
-# Unit tests.
+# Unit tests, executed using the pytest framework (https://docs.pytest.org/)
 #
-# TODO: 
-# * Consider using pytest instead of the standard unittest module.
-# * Create separate integration tests.
+# The pytest framework can run regular tests written for the "unittest"
+# standard library. pytest provides additional features, plus it produces 
+# a much nicer output than using "python -m unittest".
 #
-# Run unit tests using unittest
-# See https://docs.python.org/2/library/unittest.html
-#python3 -m unittest plexusscraper/test_*.py
-#
-# Run unit tests using pytest
-# See https://docs.pytest.org/
-pytest plexusscraper -v
+pytest tests/unit -vv
+}
+
+
+function run_all_tests()
+{
+run_unit_tests
+run_acceptance_tests
 }
 
 
 case $target in
 "acceptance")
-	acceptance_tests
+	run_acceptance_tests
 	;;
 "unit")
-	unit_tests
+	run_unit_tests
 	;;
 "all")	
-	unit_tests
-	acceptance_tests
+	run_all_tests
 	;;
 esac
 

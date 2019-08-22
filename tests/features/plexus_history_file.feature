@@ -23,7 +23,7 @@ Scenario: Create a history file from a downloaded web page and save to a txt fil
 
 
 Scenario: Create a history file from a local html file
-  Given a local html file test/resources/html/sample_1.html
+  Given a local html file tests/resources/html/sample_1.html
    When I generate a plexus history file from a local html file
    Then I expect the plexus history file to look like this
      """

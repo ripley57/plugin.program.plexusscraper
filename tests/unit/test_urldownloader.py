@@ -10,13 +10,13 @@ import time
 import unittest
 
 from plexusscraper.urldownloader import URLDownloader
-from resources.Utils.webserver import WebServer
+from plexusscraper.testing.utils.webserver import WebServer
 
 class TestURLDownloader(unittest.TestCase):
 
 	@classmethod
 	def setUpClass(cls):
-		web_server_pid = subprocess.Popen(["python", "resources/Utils/webserver.py", "test/resources/html/"]).pid
+		web_server_pid = subprocess.Popen(["python", "src/plexusscraper/testing/utils/webserver.py", "tests/resources/html/"]).pid
 		print("web_server_pid=", web_server_pid)
 		time.sleep(3)	# Give time for the web server to start
 
