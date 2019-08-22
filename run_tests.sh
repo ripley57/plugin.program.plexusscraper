@@ -8,7 +8,7 @@ then
 	cat <<EOI
 
 usage:
-	run_tests [--help|unit|acceptance|all]
+	run_tests [--help|unit|acceptance|functional|all]
 
 Any additional arguments will be passed on, e.g. to skip pytests marked as "slow":
 
@@ -46,7 +46,13 @@ function run_acceptance_tests()
 # https://behave.readthedocs.io/en/latest/tutorial.html?highlight=tags#controlling-things-with-tags
 #behave -w test/acceptance
 #
-behave tests/acceptance/ --junit "$@"
+behave tests/behave/ --tags=@acceptance --junit "$@"
+}
+
+
+function run_functional_tests()
+{
+behave tests/behave/ --tags=@functional --junit "$@"
 }
 
 
@@ -65,6 +71,7 @@ pytest tests/unit -vv "$@"
 function run_all_tests()
 {
 run_unit_tests
+run_functional_tests
 run_acceptance_tests
 }
 
@@ -75,6 +82,9 @@ case $target in
 	;;
 "unit")
 	run_unit_tests "$@"
+	;;
+"functional")
+	run_functional_tests "$@"
 	;;
 "all")	
 	run_all_tests 
