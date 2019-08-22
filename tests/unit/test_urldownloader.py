@@ -5,6 +5,7 @@
 		should probably be an integration test.
 """
 
+import pytest
 import subprocess
 import time
 import unittest
@@ -25,6 +26,7 @@ class TestURLDownloader(unittest.TestCase):
 		downloader = URLDownloader()
 		text = downloader.download('http://localhost:9090/PLEASE_TERMINATE_WEB_SERVER')
 
+	@pytest.mark.slow
 	def test_download_valid_url(self):
 		downloader = URLDownloader()
 		(status, text) = downloader.download('http://localhost:9090/sample_1.html')
