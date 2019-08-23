@@ -79,6 +79,14 @@ function run_unit_tests()
 #				(-x prevents pdb from looking at the next failure).
 #
 pytest tests/unit -q "$@"
+#
+# Run tests against both Python 2 and Python 3 versions using Tox.
+# See https://tox.readthedocs.io/en/latest/config.html
+# TODO: webserver.py currently fails on Python 2. Due to changes in HTTPServer
+#       in Python 3, we need seperate versions of webserver.py for Python 2 and 
+#       Python 3. Creating these is not a problem using - the problem is how to
+#       dynically find the correct version at runtime.
+#tox tests/unit "$@" 
 }
 
 
@@ -87,8 +95,12 @@ function run_code_coverage()
 # We will use coverage.py, via the installation of pytest-cov, which allows
 # us to run coverage it via pytest:
 #	pip install pytest-cov
+#
+# See:
+# 	https://coverage.readthedocs.io
+#	https://pytest-cov.readthedocs.io
 # 
-pytest --cov=src
+pytest --cov=src --cov-report=html
 }
 
 

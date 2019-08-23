@@ -10,3 +10,8 @@ reports/
 
 # Code coverage
 .coverage
+htmlcov/
+
+# Tox can be used to run pytest against different Python
+# versions, using virtual envs.
+.tox/

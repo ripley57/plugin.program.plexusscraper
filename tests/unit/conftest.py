@@ -9,5 +9,5 @@
 # subdirectories.
 #
 # Although conftest.py is a Python module, it should not be imported 
-# by test files. Don’t import conftest from anywhere. The conftest.py 
+# by test files. Don't import conftest from anywhere. The conftest.py 
 # file gets read by pytest, and is considered a local plugin.
