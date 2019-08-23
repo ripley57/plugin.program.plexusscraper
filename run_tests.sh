@@ -8,7 +8,7 @@ then
 	cat <<EOI
 
 usage:
-	run_tests [--help|unit|acceptance|functional|all]
+	run_tests [--help|unit|acceptance|functional|all|coverage]
 
 Any additional arguments will be passed on, e.g. to skip pytests marked as "slow":
 
@@ -65,6 +65,7 @@ function run_unit_tests()
 # a much nicer output than using "python -m unittest".
 #
 # Options passed:
+#	-x			Stops at the first test failure.
 #	-s			Turn off stdout capture; instead display during tests.
 #	--lf			Re-run only tests that failed last time.
 #	--ff			Run test that failed last time first.
@@ -74,8 +75,20 @@ function run_unit_tests()
 #	--doctest-modules	Test the code in function/module docstrings.
 #	--markers		List all markers (custom and built-in).
 #	-m <marker>		Run only tests marked with this (e.g. smoke).
+#	-x --pdb 		Starts the debugger at the first test failure.
+#				(-x prevents pdb from looking at the next failure).
 #
 pytest tests/unit -q "$@"
+}
+
+
+function run_code_coverage()
+{
+# We will use coverage.py, via the installation of pytest-cov, which allows
+# us to run coverage it via pytest:
+#	pip install pytest-cov
+# 
+pytest --cov=src
 }
 
 
@@ -96,6 +109,9 @@ case $target in
 	;;
 "functional")
 	run_functional_tests "$@"
+	;;
+"coverage")
+	run_code_coverage "$@"
 	;;
 "all")	
 	run_all_tests 
