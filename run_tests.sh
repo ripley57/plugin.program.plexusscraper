@@ -65,10 +65,17 @@ function run_unit_tests()
 # a much nicer output than using "python -m unittest".
 #
 # Options passed:
+#	-s			Turn off stdout capture; instead display during tests.
+#	--lf			Re-run only tests that failed last time.
+#	--ff			Run test that failed last time first.
+#	-l			Display local variables in failed test.
+#	--fixtures		List all fixtures available to test.
 #	--setup-show		Display full output from fixtures.
-#	--fixtures test.py	List all fixtures available.
+#	--doctest-modules	Test the code in function/module docstrings.
+#	--markers		List all markers (custom and built-in).
+#	-m <marker>		Run only tests marked with this (e.g. smoke).
 #
-pytest tests/unit -vv --setup-show "$@"
+pytest tests/unit -q "$@"
 }
 
 
