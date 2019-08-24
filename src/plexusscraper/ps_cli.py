@@ -22,7 +22,7 @@ class Sopcast(click.ParamType):
         self.name = 'sopcast'
 
     def convert(self, value, param, ctx):
-        found = re.match(r'^sopcast://', value)
+        found = re.match(r'sop://', value)
         if not found:
             self.fail(f'{value} is not a valid sopcast url', param, ctx)
         return value
@@ -33,7 +33,7 @@ class Acestream(click.ParamType):
         self.name = 'acestream'
 
     def convert(self, value, param, ctx):
-        found = re.match(r'^acestream://', value)
+        found = re.match(r'acestream://', value)
         if not found:
             self.fail(f'{value} is not a valid acestream url', param, ctx)
         return value
