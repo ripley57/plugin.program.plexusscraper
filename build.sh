@@ -2,6 +2,8 @@
 #
 # Build different package types.
 #
+# Useful:
+#	https://python-packaging.readthedocs.io/en/latest/
 
 if [[ "$1" = --help ]]
 then

@@ -11,6 +11,11 @@ class PlexusHistoryFile:
 		self.ace_list = []	# title,link, e.g. [('','acestream://...'),('MYNAME','acestream:/...'),...
 		self.sop_list = []	# title,link, e.g. [('SOMENAME','sop://...'),('','sop://...'),...
 
+	def get_ace_list(self):
+ 		return self.ace_list
+
+	def get_sop_list(self):
+		return self.sop_list
 
 	@property
 	def text(self):
