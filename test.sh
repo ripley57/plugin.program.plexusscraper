@@ -8,11 +8,11 @@ then
 	cat <<EOI
 
 usage:
-	run_tests [--help|unit|acceptance|functional|all|coverage]
+	./test.sh [--help|unit|acceptance|functional|all|coverage]
 
 Any additional arguments will be passed on, e.g. to skip pytests marked as "slow":
 
-	run_tests unit -m "not slow"
+	./test.sh unit -m "not slow"
 
 EOI
 	exit 1

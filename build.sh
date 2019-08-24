@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Run unit and/or acceptance tests.
+# Build different package types.
 #
 
 if [[ "$1" = --help ]]
@@ -8,7 +8,7 @@ then
 	cat <<EOI
 
 usage:
-	./build [--help|local|dist|zip|kodi]
+	./build.sh [--help|local|dist|zip|kodi]
 
 where:
 	local	-	Install locally.
