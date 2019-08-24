@@ -81,7 +81,7 @@ function run_unit_tests()
 pytest tests/unit -q "$@"
 #
 # Run tests against both Python 2 and Python 3 versions using Tox.
-# See https://tox.readthedocs.io/en/latest/config.html
+# See https://tox.readthedocs.io
 # TODO: webserver.py currently fails on Python 2. Due to changes in HTTPServer
 #       in Python 3, we need seperate versions of webserver.py for Python 2 and 
 #       Python 3. Creating these is not a problem using - the problem is how to
