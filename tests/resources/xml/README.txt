@@ -13,3 +13,9 @@ However, when the addon is used, the xml file is copied and replaced with a 'liv
 version located here:
 	/storage/.kodi/userdata/addon_data/program.plexusscraper/
 
+Summary:
+	Kodi/xbmc writes to the settings.xml file. We must not!
+	But we can use what ever code we like to read it. 
+	We can either read the xml file directly, or we can use the Kodi/xbmc api:
+	https://codedocs.xyz/AlwinEsch/kodi/group__python__xbmcaddon.html
+
