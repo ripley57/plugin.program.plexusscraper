@@ -28,11 +28,19 @@ target=${1:-unit}	;# Run unit tests by default
 
 function install_test_dependencies()
 {
+	# We use the "--ignore-installed" (-I) option to ensure that we install
+	# local copies of any extra packages we need. This will stop us seeing 
+	# "Requirement already satisfied" because pip has found the requested
+	# package somewhere else in the module search path (sys.path).
 	pip install pytest pytest-mock behave --ignore-installed
 }
 
 function install_program_dependencies()
 {
+	# We use the "--ignore-installed" (-I) option to ensure that we install
+	# local copies of any extra packages we need. This will stop us seeing 
+	# "Requirement already satisfied" because pip has found the requested
+	# package somewhere else in the module search path (sys.path).
 	pip install bs4 requests click xmltodict --ignore-installed
 }
 
@@ -58,13 +66,7 @@ if [ ! -d venv ]; then
 	command -v deactivate >/dev/null 2>&1 && deactivate
 	${PYTHON} -m venv venv
 	source venv/bin/activate
-
 	update_python_syspath
-
-	# NOTE: We use the "--ignore-installed" (-I) option to ensure that we install
-	# local copies of any extra packages we need. This will stop us seeing instances
-	# of "Requirement already satisfied" because pip finds the requested package
-	# somewhere else in the sys.path.
 	install_test_dependencies
 	install_program_dependencies
 fi
@@ -97,13 +99,13 @@ function run_acceptance_tests()
 # https://behave.readthedocs.io/en/latest/tutorial.html?highlight=tags#controlling-things-with-tags
 #behave -w test/acceptance
 #
-behave tests/behave/ --tags=@acceptance --junit "$@"
+	behave tests/behave/ --tags=@acceptance --junit "$@"
 }
 
 
 function run_functional_tests()
 {
-behave tests/behave/ --tags=@functional --junit "$@"
+	behave tests/behave/ --tags=@functional --junit "$@"
 }
 
 
@@ -129,8 +131,8 @@ function run_unit_tests()
 #	-x --pdb 		Starts the debugger at the first test failure.
 #				(-x prevents pdb from looking at the next failure).
 #
-#pytest tests/unit -q "$@"
-pytest tests/unit -vv "$@"
+	#pytest tests/unit -q "$@"
+	pytest tests/unit -vv "$@"
 #
 # Run tests against both Python 2 and Python 3 versions using Tox.
 # See https://tox.readthedocs.io
@@ -138,7 +140,8 @@ pytest tests/unit -vv "$@"
 #       in Python 3, we need seperate versions of webserver.py for Python 2 and 
 #       Python 3. Creating these is not a problem using - the problem is how to
 #       dynically find the correct version at runtime.
-#tox tests/unit "$@" 
+#
+	#tox tests/unit "$@" 
 }
 
 
@@ -152,27 +155,28 @@ function run_code_coverage()
 # 	https://coverage.readthedocs.io
 #	https://pytest-cov.readthedocs.io
 # 
-pytest --cov=src --cov-report=html
+	pytest --cov=src --cov-report=html
 }
 
 
 function run_all_tests()
 {
-run_unit_tests
-run_functional_tests
-run_acceptance_tests
+	run_unit_tests
+	run_functional_tests
+	run_acceptance_tests
+	run_code_coverage
 }
 
 
 case $target in
-"acceptance")
-	run_acceptance_tests "$@"
-	;;
 "unit")
 	run_unit_tests "$@"
 	;;
 "functional")
 	run_functional_tests "$@"
+	;;
+"acceptance")
+	run_acceptance_tests "$@"
 	;;
 "coverage")
 	run_code_coverage "$@"
