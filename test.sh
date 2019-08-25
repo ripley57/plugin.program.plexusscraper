@@ -2,6 +2,10 @@
 #
 # Run unit and/or acceptance tests.
 #
+set -e
+set +x
+
+PYTHON=python3	
 
 if [[ "$1" = --help ]]
 then
@@ -19,7 +23,54 @@ EOI
 fi
 
 target=${1:-unit}	;# Run unit tests by default
-shift
+[[ $# > 0 ]] && shift
+
+
+function install_test_dependencies()
+{
+	pip install pytest pytest-mock behave --ignore-installed
+}
+
+function install_program_dependencies()
+{
+	pip install bs4 requests click xmltodict --ignore-installed
+}
+
+function update_python_syspath()
+{
+	# BY setting PYTHONPATH, this valuegets added to front of sys.path
+	# (See https://pymotw.com/2/site/)
+	# This ensures that "pip install" installs packages to our local
+	# "site-packages" directory.
+	site_packages_dir=$(find ./venv -type d -name site-packages)
+	site_packages_dir_fullpath=$(cd "$site_packages_dir" && pwd)
+	# The following use of "sitecustomize.py" doesn't work, because we 
+	# still need to use the "base" Python installation for the Python
+	# standard library (including, for example, the "re" package).
+        # (See my further comments in "sitecustomize.py").
+	#cp ./sitecustomize.py "$site_packages_dir_fullpath/"
+	export PYTHONPATH=$site_packages_dir_fullpath
+}
+
+# Create local virtual environment.
+if [ ! -d venv ]; then
+	echo "Creating a Python virtual environment in \"venv\" ..."
+	command -v deactivate >/dev/null 2>&1 && deactivate
+	${PYTHON} -m venv venv
+	source venv/bin/activate
+
+	update_python_syspath
+
+	# NOTE: We use the "--ignore-installed" (-I) option to ensure that we install
+	# local copies of any extra packages we need. This will stop us seeing instances
+	# of "Requirement already satisfied" because pip finds the requested package
+	# somewhere else in the sys.path.
+	install_test_dependencies
+	install_program_dependencies
+fi
+
+update_python_syspath
+source venv/bin/activate
 
 
 # In order for our test modules (in the "tests/" directory) to be able to
@@ -78,7 +129,8 @@ function run_unit_tests()
 #	-x --pdb 		Starts the debugger at the first test failure.
 #				(-x prevents pdb from looking at the next failure).
 #
-pytest tests/unit -q "$@"
+#pytest tests/unit -q "$@"
+pytest tests/unit -vv "$@"
 #
 # Run tests against both Python 2 and Python 3 versions using Tox.
 # See https://tox.readthedocs.io

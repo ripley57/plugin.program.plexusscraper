@@ -19,3 +19,5 @@ build/
 # versions, using virtual envs.
 .tox/
 
+# Our test.sh script now creates a local virtual Python env.
+venv/
