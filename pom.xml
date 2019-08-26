@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+    <!-- 
+	We are using Maven for the following:
+
+	1. Convert BDD acceptance test results from cucumber json format to html.
+	The output html files can be found here:
+		reports/html/cucumber-html-reports/
+
+	2. Convert the JUnit format test results from pytest from xml format to html.
+	The output html file can be found here:
+		reports/html/unit
+
+	To execute (everything in this pom.xml):
+		mvn verify
+
+    (Converting JUnit xml files to html, as we are doing here, can apparently also be
+    done using the Maven plugins "maven-surefire-plugin" and "maven-surefire-report-plugin".
+    However, the "maven-site-plugin" is required in order to invole report plugin, and
+    means you would use "mvn site" to convert invoke the report generation. While I did
+    get this to work, I didn't like the html output, or the complexity in my pom.xml file.
+    That's why I'm instead using Ant from inside Maven, via the "maven-antrun-plugin"
+    plugin).
+    -->
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>plexusscraper</groupId>
+    <artifactId>plexusscraper</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- NOTE: We cannot stop Maven from building a jar file in the "target" directory -->
+
+    <name>Plexus Scraper</name>
+
+    <properties>
+	<!-- Added to prevent a warning -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<!-- Change the Maven "src" directory -->
+        <src.dir>mvn</src.dir>
+    </properties>
+
+    <dependencies>
+	<!-- 	Converting from cucumber BDD json to html.
+		See https://github.com/damianszczepanik/cucumber-reporting -->
+	<dependency>
+		<groupId>net.masterthought</groupId>
+		<artifactId>cucumber-reporting</artifactId>
+		<!-- version number://mvnrepository.com/artifact/net.masterthought/cucumber-reporting -->
+		<version>4.8.0</version>
+	</dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>${src.dir}</sourceDirectory>
+        <plugins>
+	    <!-- 	Converting from cucumber BDD json to html.
+			Note below that we compile and run a Java program (GenerateExtraReports). -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>java</goal>		
+                        </goals>
+                        <configuration>
+                            <mainClass>com.jeremyc.GenerateExtraReports</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>test-reports</id>
+                        <phase>test</phase>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="reports/html/unit" />
+                                <junitreport todir="reports/html/unit">
+                                    <fileset dir="reports">
+				        <!-- NOTE: Matches our disaggregated pytest xml file(s) -->
+                                        <include name="TESTS-testsuite-*.xml"/>
+                                    </fileset>
+                                    <report format="noframes" todir="reports/html/unit"/>
+                                </junitreport>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                           <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>ant</groupId>
+                        <artifactId>ant-junit</artifactId>
+                        <version>1.6.2</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

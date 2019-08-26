@@ -2,6 +2,8 @@
 #
 # Build different package types.
 #
+# NOTE: This does NOT need to be run before running test.sh.
+#
 # Useful:
 #	https://python-packaging.readthedocs.io/en/latest/
 

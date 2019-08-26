@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 #
-# Run tests.
+# Run acceptance (BDD) and unit tests.
 #
+# On Linux, to run all tests and generate html reports, and code coverage report:
+# ./test.sh all
+#
+# See html report files in reports/html/
+# 
+# Maven is used for the final step of converting the test results from xml/json
+# (see reports/) to html (see reports/html/. To re-run that last step, simply 
+# run "mvn verify".
+#
+# JeremyC 26-08-2019
 
 set -e
 set +x
@@ -13,7 +23,7 @@ then
 	cat <<EOI
 
 usage:
-	./test.sh [--help|unit|acceptance|functional|coverage|all]
+	./test.sh [--help|unit|acceptance|functional|coverage|html|all]
 
 EOI
 	exit 1
@@ -30,7 +40,7 @@ function install_test_dependencies()
 	# "Requirement already satisfied" because pip has found the requested
 	# package somewhere else in the module search path (sys.path).
 
-	pip install pytest pytest-cov pytest-mock behave wheel --ignore-installed
+	pip install pytest pytest-cov pytest-mock behave wheel behave2cucumber --ignore-installed
 }
 function install_program_dependencies()
 {
@@ -53,7 +63,7 @@ function update_python_syspath()
 	# still need to use the "base" Python installation for the Python
 	# standard library (which includes, for example, the "re" package).
         # (See my additional comments in "sitecustomize.py").
-	#cp ./sitecustomize.py "$site_packages_dir_fullpath/"
+	#cp ./utils/sitecustomize.py "$site_packages_dir_fullpath/"
 
 	export PYTHONPATH=$site_packages_dir_fullpath
 }
@@ -106,11 +116,15 @@ function run_acceptance_tests()
 # Usage:
 # "behave" is run from the command line.
 #
-	behave tests/behave/ --tags=@acceptance -f json -o reports/TESTS-acceptance.json
+	behave tests/behave/ --tags=@acceptance -f json -o reports/TESTS-behave-acceptance.json
+	python -m behave2cucumber -i reports/TESTS-behave-acceptance.json -o reports/TESTS-cucumber-acceptance.json
+	[ ! -s behave2cucumber.log ] && rm -f behave2cucumber.log	# Remove zero-byte output log file.
 }
 function run_functional_tests()
 {
-	behave tests/behave/ --tags=@functional -f json -o reports/TESTS-functional.json
+	behave tests/behave/ --tags=@functional -f json -o reports/TESTS-behave-functional.json
+	python -m behave2cucumber -i reports/TESTS-behave-functional.json -o reports/TESTS-cucumber-functional.json
+	[ ! -s behave2cucumber.log ] && rm -f behave2cucumber.log	# Remove zero-byte output log file.
 }
 
 
@@ -142,6 +156,13 @@ function run_unit_tests()
 #					import pdb; pdb.set_trace()
 #
 	pytest tests/unit -vv --junit-xml=reports/TESTS-unit.xml
+
+	# We use the Maven Ant plugin in our pom.xml to convert this xml
+	# file to html. Ant junitreport only expects the xml file to
+	# contain a single testsuite result; so we need to split-up this
+	# file into possible multiple separate xml files, one per
+	# testsuite result.
+	python utils/disaggregate_testsuites.py reports/TESTS-unit.xml
 #
 # If you need to, you can run tests against both Python 2 and Python 3 versions,
 # using Tox. See https://tox.readthedocs.io
@@ -160,7 +181,14 @@ function run_code_coverage()
 # Installation:
 # pip install pytest-cov
 #
-	pytest --cov=src --cov-report html:reports/coverage
+	pytest --cov=src --cov-report html:reports/html/coverage
+}
+
+
+function generate_html_reports()
+{
+	# Use maven "mvn" (which you need to install)
+	mvn verify
 }
 
 
@@ -170,6 +198,7 @@ function run_all()
 	run_functional_tests
 	run_acceptance_tests
 	run_code_coverage
+	generate_html_reports
 }
 
 
@@ -185,6 +214,9 @@ case $target in
 	;;
 "coverage")
 	run_code_coverage "$@"
+	;;
+"html")
+	generate_html_reports
 	;;
 "all")	
 	run_all
