@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 #
-# Run unit and/or acceptance tests.
+# Run tests.
 #
+
 set -e
 set +x
 
@@ -12,17 +13,13 @@ then
 	cat <<EOI
 
 usage:
-	./test.sh [--help|unit|acceptance|functional|all|coverage]
-
-Any additional arguments will be passed on, e.g. to skip pytests marked as "slow":
-
-	./test.sh unit -m "not slow"
+	./test.sh [--help|unit|acceptance|functional|coverage|all]
 
 EOI
 	exit 1
 fi
 
-target=${1:-unit}	;# Run unit tests by default
+target=${1:-unit}	;# Run only unit tests by default
 [[ $# > 0 ]] && shift
 
 
@@ -32,41 +29,45 @@ function install_test_dependencies()
 	# local copies of any extra packages we need. This will stop us seeing 
 	# "Requirement already satisfied" because pip has found the requested
 	# package somewhere else in the module search path (sys.path).
-	pip install pytest pytest-mock behave --ignore-installed
-}
 
+	pip install pytest pytest-cov pytest-mock behave wheel --ignore-installed
+}
 function install_program_dependencies()
 {
-	# We use the "--ignore-installed" (-I) option to ensure that we install
-	# local copies of any extra packages we need. This will stop us seeing 
-	# "Requirement already satisfied" because pip has found the requested
-	# package somewhere else in the module search path (sys.path).
 	pip install bs4 requests click xmltodict --ignore-installed
 }
 
+
 function update_python_syspath()
 {
-	# BY setting PYTHONPATH, this valuegets added to front of sys.path
+	# BY setting PYTHONPATH, this value gets added to front of sys.path
 	# (See https://pymotw.com/2/site/)
 	# This ensures that "pip install" installs packages to our local
-	# "site-packages" directory.
+	# "site-packages" directory, and not anywhere else.
+
 	site_packages_dir=$(find ./venv -type d -name site-packages)
 	site_packages_dir_fullpath=$(cd "$site_packages_dir" && pwd)
-	# The following use of "sitecustomize.py" doesn't work, because we 
+
+	# NOTE:
+	# The following use of "sitecustomize.py" doesn't work; because we 
 	# still need to use the "base" Python installation for the Python
-	# standard library (including, for example, the "re" package).
-        # (See my further comments in "sitecustomize.py").
+	# standard library (which includes, for example, the "re" package).
+        # (See my additional comments in "sitecustomize.py").
 	#cp ./sitecustomize.py "$site_packages_dir_fullpath/"
+
 	export PYTHONPATH=$site_packages_dir_fullpath
 }
 
-# Create local virtual environment.
+
+# Create local python virtual environment to run our tests.
 if [ ! -d venv ]; then
 	echo "Creating a Python virtual environment in \"venv\" ..."
 	command -v deactivate >/dev/null 2>&1 && deactivate
 	${PYTHON} -m venv venv
 	source venv/bin/activate
+
 	update_python_syspath
+
 	install_test_dependencies
 	install_program_dependencies
 fi
@@ -75,13 +76,14 @@ update_python_syspath
 source venv/bin/activate
 
 
-# In order for our test modules (in the "tests/" directory) to be able to
-# import the packages we are testing (in the "src/" directory), we can use
-# "pip install -e ." to install a "<package-name>.egg-link" file under 
-# our Python installation. Instead of installing copies of a package, this
-# creates a link back to the files in this directory. This works because
-# we have a "setup.py" file in this directory. The "-e" option also means
-# we can make changes to the files and re-test without having to re-install.
+# The simplest way for our test modules (in the "tests/" directory) to be able 
+# to import the packages we are testing (in the "src/" directory), is to install
+# our program package ("plexusscraper") locally. We do this using 
+# "pip install -e .". This creates a link ( "<package-name>.egg-link") file under 
+# the Python installation's "site-packages" directory.
+# NOTE: Running "pip install -e ." uses our "setup.py" file.
+# The "-e" is short for "--editable" and means we can continue to edit on our
+# program files locally, with needing to keep re-installing our package.
 if ! pip show plexusscraper >/dev/null 2>&1 ; then
 	pip install -e .
 fi
@@ -89,35 +91,41 @@ fi
 
 function run_acceptance_tests()
 {
-# Acceptance tests using Python Behave (https://behave.readthedocs.io/en/latest/)
+# We will use Python Behave (https://behave.readthedocs.io)
 #
-# The "--junit" option generates JUnit-compatible test reports, for use with
-# reporting tools such as Thucydides.
+# Behave (https://behave.readthedocs.io) is a Gherkin-based BDD tool for Python 
+# programs. Similar BDD tools for Python are Lettuce (http://pythonhosted.org/lettuce) 
+# and Freshen (https://github.com/rlisagor/freshen). I've also come across pytest-bdd
+# (https://pytest-bdd.readthedocs.io), but haven't tried it yet. Behave is apparently
+# "...the most stable, best documented, and most feature-rich of the three" (from 
+# eBook "BDD In Action" (2015).
 #
-# The "-w" option is a shorthand for "--tags=@wip". 
-# This can we used to only run specific acceptance/scenarios. See:
-# https://behave.readthedocs.io/en/latest/tutorial.html?highlight=tags#controlling-things-with-tags
-#behave -w test/acceptance
+# Installation:
+# pip install behave
 #
-	behave tests/behave/ --tags=@acceptance --junit "$@"
+# Usage:
+# "behave" is run from the command line.
+#
+	behave tests/behave/ --tags=@acceptance -f json -o reports/TESTS-acceptance.json
 }
-
-
 function run_functional_tests()
 {
-	behave tests/behave/ --tags=@functional --junit "$@"
+	behave tests/behave/ --tags=@functional -f json -o reports/TESTS-functional.json
 }
 
 
 function run_unit_tests()
 {
-# Unit tests, executed using the pytest framework (https://docs.pytest.org/)
+# We will use pytest (https://docs.pytest.org/)
 #
-# The pytest framework can run regular tests written for the "unittest"
-# standard library. pytest provides additional features, plus it produces 
-# a much nicer output than using "python -m unittest".
+# The pytest framework can run regular tests written for "unittest" of the Python 
+# standard library. But pytest provides additional features, and it produces a
+# much nicer output.
 #
-# Options passed:
+# Installation:
+# pip install pytest pytest-mock
+#
+# pytest handy options:
 #	-x			Stops at the first test failure.
 #	-s			Turn off stdout capture; instead display during tests.
 #	--lf			Re-run only tests that failed last time.
@@ -130,36 +138,33 @@ function run_unit_tests()
 #	-m <marker>		Run only tests marked with this (e.g. smoke).
 #	-x --pdb 		Starts the debugger at the first test failure.
 #				(-x prevents pdb from looking at the next failure).
+#				NOTE: To stop the pdb debugger at a line of code:
+#					import pdb; pdb.set_trace()
 #
-	#pytest tests/unit -q "$@"
-	pytest tests/unit -vv "$@"
+	pytest tests/unit -vv --junit-xml=reports/TESTS-unit.xml
 #
-# Run tests against both Python 2 and Python 3 versions using Tox.
-# See https://tox.readthedocs.io
-# TODO: webserver.py currently fails on Python 2. Due to changes in HTTPServer
+# If you need to, you can run tests against both Python 2 and Python 3 versions,
+# using Tox. See https://tox.readthedocs.io
+# NOTE: webserver.py currently fails on Python 2. Due to changes in HTTPServer
 #       in Python 3, we need seperate versions of webserver.py for Python 2 and 
-#       Python 3. Creating these is not a problem using - the problem is how to
-#       dynically find the correct version at runtime.
-#
-	#tox tests/unit "$@" 
+#       Python 3. Creating these is not a problem using "2to3" - the problem is 
+#	how to dynically find the correct version at runtime.
+	#tox tests/unit
 }
 
 
 function run_code_coverage()
 {
-# We will use coverage.py, via the installation of pytest-cov, which allows
-# us to run coverage it via pytest:
-#	pip install pytest-cov
+# We will use pytest-cov (https://pytest-cov.readthedocs.io)
 #
-# See:
-# 	https://coverage.readthedocs.io
-#	https://pytest-cov.readthedocs.io
-# 
-	pytest --cov=src --cov-report=html
+# Installation:
+# pip install pytest-cov
+#
+	pytest --cov=src --cov-report html:reports/coverage
 }
 
 
-function run_all_tests()
+function run_all()
 {
 	run_unit_tests
 	run_functional_tests
@@ -182,7 +187,7 @@ case $target in
 	run_code_coverage "$@"
 	;;
 "all")	
-	run_all_tests 
+	run_all
 	;;
 esac
 
