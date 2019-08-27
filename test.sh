@@ -2,18 +2,22 @@
 #
 # Run acceptance and unit tests.
 #
-# To run all tests (generating json/xml results in the "reports/" directory):
-# ./test.sh all
+# Example usage:
 #
-# html test reports
-# =================
-# To convert the json/xml test results to html (plus an html code coverage report):
-# mvn verify
+# 	Run all tests (generating json/xml results in the "reports/" directory):
+#	./test.sh all
 #
-# Loction of the html reports:
-# acceptance tests report	-	reports/html/cucumber-html-reports/overview-features.html
+#	Run unit and acceptance tests, and generate code coverage report:
+#	./test.sh unit acceptance coverage
+#
+#	Generate html reports from the json/xml test results:
+#	mvn verify
+#
+# Location of html test reports
+# =============================
+# acceptance tests report		-	reports/html/cucumber-html-reports/overview-features.html
 # unit tests report		-	reports/html/unit/junit-noframes.html
-# code coverage report		-	reports/html/coverage/index.html
+#  code coverage report		-	reports/html/coverage/index.html
 #
 #
 # JeremyC 26-08-2019
