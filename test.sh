@@ -1,21 +1,27 @@
 #!/usr/bin/env bash
 #
-# Run acceptance (BDD) and unit tests.
+# Run acceptance and unit tests.
 #
-# On Linux, to run all tests and generate html reports, and code coverage report:
+# To run all tests (generating json/xml results in the "reports/" directory):
 # ./test.sh all
 #
-# See html report files in reports/html/
-# 
-# Maven is used for the final step of converting the test results from xml/json
-# (see reports/) to html (see reports/html/. To re-run that last step, simply 
-# run "mvn verify".
+# html test reports
+# =================
+# To convert the json/xml test results to html (plus an html code coverage report):
+# mvn verify
+#
+# Loction of the html reports:
+# acceptance tests report	-	reports/html/cucumber-html-reports/overview-features.html
+# unit tests report		-	reports/html/unit/junit-noframes.html
+# code coverage report		-	reports/html/coverage/index.html
+#
 #
 # JeremyC 26-08-2019
 
 set -e
 set +x
 
+SCRIPTNAME=$0
 PYTHON=python3	
 
 if [[ "$1" = --help ]]
@@ -23,27 +29,66 @@ then
 	cat <<EOI
 
 usage:
-	./test.sh [--help|unit|acceptance|functional|coverage|html|all]
+	$SCRIPTNAME [--help|unit|acceptance|coverage|html|all]
 
 EOI
 	exit 1
 fi
 
-target=${1:-unit}	;# Run only unit tests by default
-[[ $# > 0 ]] && shift
+
+# Keep track of the tests that have run to completion, or not.
+# With all the output streaming past, it is difficult to see
+# which tests actually completed. We use a simple bash hash.
+declare -A tests_run_array
+function test_started()
+{	
+	local _name=$1
+	tests_run_array["$_name"]="STARTED"
+}
+function test_completed()
+{
+	local _name=$1
+	tests_run_array["$_name"]="COMPLETED"
+}
+function tests_run_summary()
+{
+	local _name
+	local _state
+
+	if [[ ${#tests_run_array[@]} -gt 0 ]]; then
+		printf "\n\tTests ran:\n\n"
+		for _name in "${!tests_run_array[@]}"; do 
+			_state=${tests_run_array["$_name"]}
+			printf "\t%-15s : %s\n" "$_name" "$_state"
+		done
+		printf "\n"
+		how_to_generate_html_reports
+	fi
+}
+
+# Display tests summary if unexpected error occurs.
+# Note: We have "set -e" at the top of this script.
+function cleanup()
+{
+	exit_status=$?
+	echo "Caught an error!"
+	tests_run_summary
+	exit $exit_status
+}
+trap cleanup 0 1 2 3 15
 
 
-function install_test_dependencies()
+function install_python_dependencies()
 {
 	# We use the "--ignore-installed" (-I) option to ensure that we install
 	# local copies of any extra packages we need. This will stop us seeing 
 	# "Requirement already satisfied" because pip has found the requested
 	# package somewhere else in the module search path (sys.path).
 
+	# dependencies for testing
 	pip install pytest pytest-cov pytest-mock behave wheel behave2cucumber --ignore-installed
-}
-function install_program_dependencies()
-{
+
+	# dependencies of our program
 	pip install bs4 requests click xmltodict --ignore-installed
 }
 
@@ -57,15 +102,14 @@ function update_python_syspath()
 
 	site_packages_dir=$(find ./venv -type d -name site-packages)
 	site_packages_dir_fullpath=$(cd "$site_packages_dir" && pwd)
+	export PYTHONPATH=$site_packages_dir_fullpath
 
 	# NOTE:
-	# The following use of "sitecustomize.py" doesn't work; because we 
-	# still need to use the "base" Python installation for the Python
+	# The commented-out use of "sitecustomize.py" didn't work, because
+	# we still need to use the base Python installation for the Python
 	# standard library (which includes, for example, the "re" package).
         # (See my additional comments in "sitecustomize.py").
 	#cp ./utils/sitecustomize.py "$site_packages_dir_fullpath/"
-
-	export PYTHONPATH=$site_packages_dir_fullpath
 }
 
 
@@ -75,11 +119,8 @@ if [ ! -d venv ]; then
 	command -v deactivate >/dev/null 2>&1 && deactivate
 	${PYTHON} -m venv venv
 	source venv/bin/activate
-
 	update_python_syspath
-
-	install_test_dependencies
-	install_program_dependencies
+	install_python_dependencies
 fi
 
 update_python_syspath
@@ -88,13 +129,15 @@ source venv/bin/activate
 
 # The simplest way for our test modules (in the "tests/" directory) to be able 
 # to import the packages we are testing (in the "src/" directory), is to install
-# our program package ("plexusscraper") locally. We do this using 
-# "pip install -e .". This creates a link ( "<package-name>.egg-link") file under 
-# the Python installation's "site-packages" directory.
-# NOTE: Running "pip install -e ." uses our "setup.py" file.
-# The "-e" is short for "--editable" and means we can continue to edit on our
-# program files locally, with needing to keep re-installing our package.
-if ! pip show plexusscraper >/dev/null 2>&1 ; then
+# our program package ("plexusscraper") locally. We do this here using:  
+# 	"pip install -e .". 
+# This creates a link ( "<package-name>.egg-link") file under the Python 
+# installation's "site-packages" directory.
+# NOTE: Running "pip install -e ." requires our "setup.py" file.
+# The "-e" is short for "--editable" and means we can continue to edit our
+# program files locally, with needing to keep re-installing them.
+if ! pip show plexusscraper >/dev/null 2>&1
+then
 	pip install -e .
 fi
 
@@ -105,26 +148,25 @@ function run_acceptance_tests()
 #
 # Behave (https://behave.readthedocs.io) is a Gherkin-based BDD tool for Python 
 # programs. Similar BDD tools for Python are Lettuce (http://pythonhosted.org/lettuce) 
-# and Freshen (https://github.com/rlisagor/freshen). I've also come across pytest-bdd
-# (https://pytest-bdd.readthedocs.io), but haven't tried it yet. Behave is apparently
+# and Freshen (https://github.com/rlisagor/freshen). I have also come across pytest-bdd
+# (https://pytest-bdd.readthedocs.io), but have not tried it yet. Behave is apparently
 # "...the most stable, best documented, and most feature-rich of the three" (from 
 # eBook "BDD In Action" (2015).
 #
 # Installation:
 # pip install behave
 #
-# Usage:
-# "behave" is run from the command line.
-#
-	behave tests/behave/ --tags=@acceptance -f json -o reports/TESTS-behave-acceptance.json
-	python -m behave2cucumber -i reports/TESTS-behave-acceptance.json -o reports/TESTS-cucumber-acceptance.json
-	[ ! -s behave2cucumber.log ] && rm -f behave2cucumber.log	# Remove zero-byte output log file.
-}
-function run_functional_tests()
-{
-	behave tests/behave/ --tags=@functional -f json -o reports/TESTS-behave-functional.json
-	python -m behave2cucumber -i reports/TESTS-behave-functional.json -o reports/TESTS-cucumber-functional.json
-	[ ! -s behave2cucumber.log ] && rm -f behave2cucumber.log	# Remove zero-byte output log file.
+	test_started "acceptance"
+
+	behave tests/behave/ -f json -o "reports/TESTS-behave-acceptance.json"
+
+	# Remove zero-byte file that is annoyingly left behind.
+	if [ ! -s behave2cucumber.log ]
+	then 
+		rm -f behave2cucumber.log
+	fi
+
+	test_completed "acceptance"
 }
 
 
@@ -155,22 +197,26 @@ function run_unit_tests()
 #				NOTE: To stop the pdb debugger at a line of code:
 #					import pdb; pdb.set_trace()
 #
+	test_started "unit"
+
 	pytest tests/unit -vv --junit-xml=reports/TESTS-unit.xml
 
-	# We use the Maven Ant plugin in our pom.xml to convert this xml
-	# file to html. Ant junitreport only expects the xml file to
-	# contain a single testsuite result; so we need to split-up this
-	# file into possible multiple separate xml files, one per
-	# testsuite result.
+	# We later use the Maven Ant plugin (see pom.xml) to convert this xml
+	# file to html. The Ant junitreport task only expects the xml file to
+	# contain a single testsuite result; so we need to split-up this file
+	# into one xml file per testsuite.
+
 	python utils/disaggregate_testsuites.py reports/TESTS-unit.xml
-#
-# If you need to, you can run tests against both Python 2 and Python 3 versions,
-# using Tox. See https://tox.readthedocs.io
-# NOTE: webserver.py currently fails on Python 2. Due to changes in HTTPServer
-#       in Python 3, we need seperate versions of webserver.py for Python 2 and 
-#       Python 3. Creating these is not a problem using "2to3" - the problem is 
-#	how to dynically find the correct version at runtime.
+
+	# If we ever need to, it's possible to run tests against both Python 2 and 
+	# Python 3 versions using Tox. See https://tox.readthedocs.io
+	# NOTE: webserver.py currently fails on Python 2. Due to changes in HTTPServer
+	#       in Python 3, we need seperate versions of webserver.py for Python 2 and 
+	#       Python 3. Creating these is not a problem using "2to3" - the problem is 
+	#	how to dynically find the correct version at runtime.
 	#tox tests/unit
+
+	test_completed "unit"
 }
 
 
@@ -181,45 +227,62 @@ function run_code_coverage()
 # Installation:
 # pip install pytest-cov
 #
+	test_started "code coverage"
+
 	pytest --cov=src --cov-report html:reports/html/coverage
+
+	test_completed "code coverage"
 }
 
 
 function generate_html_reports()
 {
-	# Use maven "mvn" (which you need to install)
+	test_started "generate html reports"
+
+	# Use maven "mvn" (which you will need to install)
 	mvn verify
+
+	test_completed "generate html reports"
 }
 
 
-function run_all()
+function how_to_generate_html_reports()
 {
-	run_unit_tests
-	run_functional_tests
-	run_acceptance_tests
-	run_code_coverage
-	generate_html_reports
+	cat << EOI
+
+	To generate html reports in "reports/html", run the following:
+
+	mvn verify
+
+EOI
 }
 
 
-case $target in
-"unit")
-	run_unit_tests "$@"
-	;;
-"functional")
-	run_functional_tests "$@"
-	;;
-"acceptance")
-	run_acceptance_tests "$@"
-	;;
-"coverage")
-	run_code_coverage "$@"
-	;;
-"html")
-	generate_html_reports
-	;;
-"all")	
-	run_all
-	;;
-esac
+for arg in "$@"; do
+
+	case $arg in
+	"unit")
+		run_unit_tests "$@"
+		;;
+	"acceptance")
+		run_acceptance_tests "$@"
+		;;
+	"coverage")
+		run_code_coverage "$@"
+		;;
+	"html")
+		generate_html_reports "$@"
+		;;
+	"all")	
+		run_unit_tests "$@"
+		run_acceptance_tests "$@"
+		run_code_coverage "$@"
+		;;
+	esac
+done
+
+tests_run_summary
+
+# Disable our trap.
+trap '' 0 1 2 3 15
 

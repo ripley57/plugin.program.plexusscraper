@@ -16,14 +16,26 @@ import net.masterthought.cucumber.presentation.PresentationMode;
 
 public class GenerateExtraReports {
 
+	private void addJsonFile(String filePath, List<String> jsonFiles) {
+		File f = new File(filePath)
+		if (f.exists()) {
+			jsonFiles.add(filePath);
+		} else {
+			System.err.println("WARNING: GenerateExtraReports: Ignoring missing file: " + filePath);
+		}
+	}
+
 	public static void main(String args[]) {
 
 		File reportOutputDirectory = new File("reports/html");
 
 		// Point to our input .json files.
 		List<String> jsonFiles = new ArrayList<String>();
-		jsonFiles.add("reports/TESTS-cucumber-acceptance.json");
-		jsonFiles.add("reports/TESTS-cucumber-functional.json");
+		addJsonFile("reports/TESTS-cucumber-acceptance.json", jsonFiles);
+		if (jsonFiles.size() == 0) {
+			SYstem.err.println("WARNING: GenerteExtraReports: No json files to convert to html!");
+			return
+		}
 
 		String buildNumber = "1";
 		String projectName = "cucumberProject";
