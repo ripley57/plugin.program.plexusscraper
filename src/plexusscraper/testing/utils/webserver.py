@@ -47,7 +47,7 @@ class WebServer:
 #	python3 webserver.py 'test/resources/html/'
 #
 if __name__ == '__main__':
-	dir = sys.argv[1]	
+	dir = sys.argv[1] if len(sys.argv) > 1 else "."
 	web_server = WebServer(dir,9090)
 	web_server.start()
 	print("WebServer exiting.")
