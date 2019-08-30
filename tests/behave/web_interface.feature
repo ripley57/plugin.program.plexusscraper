@@ -18,15 +18,15 @@ Scenario: Load the main web page
 #	See https://pypi.org/project/behave-webdriver/
 #	I done this because I want to implement my own step
 #	function.
-@wip
 Scenario: View the plexus scraper urls web page
   Given I open the url "http://localhost:8080/index.html"
    When I click on the link named "plexus.php"
    Then I expect to see some existing plexus scraper urls
 
 
+@wip
 Scenario: Add a new plexus scraper url
   Given I open the url "http://localhost:8080/plexus.php"
-   When I add new url "http://somedomain.com/somepage.html"
-   Then I expect the new url to be saved
+   When I save url http://somedomain.com/somepage.html in slot url_3
+   Then I expect url http//somedome.com/somepage.html to be saved in slot url_3 of the settings.xml file
  

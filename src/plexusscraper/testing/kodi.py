@@ -22,7 +22,7 @@ class MockKodiRPCHandler:
 		#
 		#	From now on, we are going to update the xml file ourself directly.
 		#	
-		print("TODO: url_path=", url_path)
+		#print("TODO: url_path=", url_path)
 
 
 	def handle_rpc(self, _path):
@@ -57,7 +57,7 @@ class MockKodiRPCHandler:
 		# The "id" and "jsonrpc" value should match the incoming rpc
 		# request, so we copy them out of the request query string.
 		resp = {"id": query_dict['id'], "jsonrpc": query_dict['jsonrpc'], "results":"OK"}
-		print("resp=", str(resp))
+		#print("resp=", str(resp))
 
 		return str(resp)
 
