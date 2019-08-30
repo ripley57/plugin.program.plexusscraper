@@ -90,7 +90,7 @@ function install_python_dependencies()
 	# package somewhere else in the module search path (sys.path).
 
 	# dependencies for testing
-	pip install pytest pytest-cov pytest-mock behave wheel behave2cucumber --ignore-installed
+	pip install pytest pytest-cov pytest-mock behave behave-webdriver wheel behave2cucumber nose --ignore-installed
 
 	# dependencies of our program
 	pip install bs4 requests click xmltodict --ignore-installed

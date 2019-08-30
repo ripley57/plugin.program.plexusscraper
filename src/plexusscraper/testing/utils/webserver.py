@@ -9,12 +9,14 @@ import os
 import sys
 import time
 
+from plexusscraper.testing.kodi import MockKodiRPCHandler
+
 g_terminate = False
 
 class MyRequestHandler(SimpleHTTPRequestHandler):
 	def do_GET(self):
 		""" Override do_GET 
-		See https://blog.anvileight.com/posts/simple-python-http-server/
+		    See https://blog.anvileight.com/posts/simple-python-http-server/
 		"""
 		if self.path and (self.path.find("PLEASE_TERMINATE_WEB_SERVER") > 0):
 			global g_terminate
@@ -22,7 +24,14 @@ class MyRequestHandler(SimpleHTTPRequestHandler):
 			self.send_response(200)
 			self.end_headers()
 			self.wfile.write(b'Terminating web server!')
+		elif self.path and (self.path.startswith("/jsonrpc") > 0):
+			kodi = MockKodiRPCHandler()
+			self.send_response(200)
+			self.send_header('Content-type', 'application/json')
+			self.end_headers()
+			self.wfile.write(str.encode(kodi.handle_rpc(self.path)))
 		else:
+			print("JCDC 2")
 			return super().do_GET()
 
 class WebServer:
@@ -48,7 +57,8 @@ class WebServer:
 #
 if __name__ == '__main__':
 	dir = sys.argv[1] if len(sys.argv) > 1 else "."
-	web_server = WebServer(dir,9090)
+	port = int(sys.argv[2]) if len(sys.argv) > 2 else 9090
+	web_server = WebServer(dir, port)
 	web_server.start()
 	print("WebServer exiting.")
 
