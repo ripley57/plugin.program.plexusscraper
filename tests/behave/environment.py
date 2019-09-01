@@ -12,9 +12,12 @@ import requests
 import subprocess
 import time
 
-from web_factory import get_web
+from browser import Browser
+from browser_factory import get_browser
+from plexusscraper.testing.utils import wait_for_port
 
-import utils
+from pages.home_page import HomePage
+from pages.urls_page import UrlsPage
 
 
 #
@@ -25,11 +28,14 @@ import utils
 
 @fixture
 def web_browser(context):
-	web = get_web(context.config.userdata['browser'])
-	context.web = web	# Save this so we can use it our step methods.
-	context.behave_driver = web._web_driver
-	yield context.web
-	context.web.quit()
+	# TODO: Make this available to browser.py
+	browser = context.config.userdata['browser']
+
+	context.behave_driver = Browser().get_behave_driver()
+	context.home_page = HomePage(browser)
+	context.urls_page = UrlsPage(browser)
+	yield context.behave_driver
+	context.behave_driver.quit()
 
 
 #
@@ -45,9 +51,9 @@ def stop_external_website():
 @fixture
 def external_website(context):
 	""" Simulate a regular website on the Internet to scrape """
-	utils.wait_for_port(8000)
-	web_server_pid = subprocess.Popen(["python", "src/plexusscraper/testing/utils/webserver.py", "tests/resources/html/", "8000"]).pid
-	print("web_server_pid=", web_server_pid)
+	wait_for_port(8000)
+	web_server_pid = subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "8000"]).pid
+	#print("web_server_pid=", web_server_pid)
 	context.add_cleanup(stop_external_website)
 	time.sleep(3)	# Give some time for the web server to start-up
 
@@ -70,20 +76,21 @@ def kodi_mock(context):
 
 	# Start mock kodi web server.
 	# TODO: Can we avoid using a hard-coded absolute path to the webinterface.webif files?
-	utils.wait_for_port(8080, kill_process=True, process_name='php')
+	wait_for_port(8080, kill_process=True, process_name='php')
 	kodi_web_server = psutil.Process(subprocess.Popen(["php", "-S", "localhost:8080", "-t", "/files/08_Github/webinterface.webif/"]).pid)
-	print("kodi_web_server: pid=", kodi_web_server.pid)
+	#print("kodi_web_server: pid=", kodi_web_server.pid)
 
 	# Start mock kodi rpc server.
-	utils.wait_for_port(9090, kill_process=True, process_name='python')
-	kodi_rpc_server = psutil.Process(subprocess.Popen(["python", "src/plexusscraper/testing/utils/webserver.py", "tests/resources/html/", "9090"]).pid)
-	print("kodi_rpc_server: pid=", kodi_rpc_server.pid)
+	wait_for_port(9090, kill_process=True, process_name='python')
+	kodi_rpc_server = psutil.Process(subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9090"]).pid)
+	#print("kodi_rpc_server: pid=", kodi_rpc_server.pid)
 
 	time.sleep(3)	# Give time for web servers to start-up
 
 	yield	
 
 	# Now stop the mock kodi servers.
+	# (Comment these if you want to play with the servers manually)
 	#requests.get('http://localhost:9090/PLEASE_TERMINATE_WEB_SERVER')
 	#kodi_web_server.terminate()
 

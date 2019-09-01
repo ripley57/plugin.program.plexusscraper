@@ -6,6 +6,7 @@ As a user
 I should be able to view and save plexus scraper urls
 
 
+# NOTE: This scenario uses built-in step implementations.
 Scenario: Load the main web page
   Given I open the url "http://localhost:8080/index.html"
    Then I expect that the title is "My own Kodi Web Interface Addon"
@@ -25,8 +26,16 @@ Scenario: View the plexus scraper urls web page
 
 
 @wip
-Scenario: Add a new plexus scraper url
+Scenario Outline: Add a new plexus scraper url
   Given I open the url "http://localhost:8080/plexus.php"
-   When I save url http://somedomain.com/somepage.html in slot url_3
-   Then I expect url http//somedome.com/somepage.html to be saved in slot url_3 of the settings.xml file
+   When I save a new url <url> in slot <slot>
+   Then I expect <url> to be saved in slot <slot>
  
+  Examples:
+  | url                              | slot  |
+  | http://somedomain.com/page_1.htm | url_1 |
+  | http://somedomain.com/page_2.htm | url_2 |
+  | http://somedomain.com/page_3.htm | url_3 |
+  | http://somedomain.com/page_4.htm | url_4 |
+  | http://somedomain.com/page_5.htm | url_5 |
+

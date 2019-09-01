@@ -11,7 +11,7 @@ import time
 import unittest
 
 from plexusscraper.urldownloader import URLDownloader
-from plexusscraper.testing.utils.webserver import WebServer
+from plexusscraper.testing.webserver import WebServer
 
 class TestURLDownloader(unittest.TestCase):
 
