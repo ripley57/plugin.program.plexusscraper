@@ -1,5 +1,5 @@
 @acceptance
-@fixture.webserver
+@fixture.external_website
 Feature: Create a plexus history file.
 
 

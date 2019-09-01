@@ -9,7 +9,7 @@ import psutil
 import time
 
 
-def wait_for_port(port, min_wait_secs=0, max_wait_secs=30, kill_process=False, process_name=None):
+def wait_for_port(port, min_wait_secs=0, max_wait_secs=60, kill_process=False, process_name=None, debug=False):
 	""" Wait for port to become free. Optionally kill the associated process.
 
 		If the "kill_process" argument is True, and the "process_name" argument
@@ -24,6 +24,8 @@ def wait_for_port(port, min_wait_secs=0, max_wait_secs=30, kill_process=False, p
 		(port, pid, name) = check_port(port, False)
 		if not pid:
 			break
+		if debug:
+			print("wait_for_port: port {} in use, by pid {}, process name {}".format(port, pid, name))
 		if time.clock() - start_time > max_wait_secs:
 			raise RuntimeError("Waited more than {} secs for port {} to become free! (pid={})".format(max_wait_secs, port, pid))
 		time.sleep(0.05)

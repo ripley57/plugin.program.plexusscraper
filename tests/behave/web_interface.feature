@@ -25,7 +25,6 @@ Scenario: View the plexus scraper urls web page
    Then I expect to see some existing plexus scraper urls
 
 
-@wip
 Scenario Outline: Add a new plexus scraper url
   Given I open the url "http://localhost:8080/plexus.php"
    When I save a new url <url> in slot <slot>

@@ -1,5 +1,5 @@
 @functional
-@fixture.webserver
+@fixture.external_website
 Feature: Extract links from an html web page
 
 

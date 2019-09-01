@@ -15,7 +15,6 @@ def step_impl(context, url, slot):
 
 @then(u'I expect to see some existing plexus scraper urls')
 def step_impl(context):
-	context.urls_page.find_text("Upload Plexus Scraper URLs:")
 	assert_equal(context.urls_page.get_page_title(), "Plexus Scraper URL uploader")
 	assert_equal(5, len(context.urls_page.get_all_urls()))
 

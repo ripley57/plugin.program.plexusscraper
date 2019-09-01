@@ -1,6 +1,6 @@
 import pytest
 
-from plexusscraper.kodi.settings import KodiSettings
+from plexusscraper.kodi.settings import KodiSettingsXml
 
 
 @pytest.fixture()
@@ -22,8 +22,15 @@ def sample_settings_xml_file(tmpdir):
 
 
 def test_read_sample_settings_xml(sample_settings_xml_file):
-	settings = KodiSettings(str(sample_settings_xml_file))
+	settings = KodiSettingsXml(str(sample_settings_xml_file))
 	settings_dict = settings.get_settings_dict()
 	assert(len(settings_dict.keys()) == 5)
 	assert(settings.get_setting('url_4') == "/storage/wolves.html")
+
+
+def test_add_setting_xml(sample_settings_xml_file):
+	settings = KodiSettingsXml(str(sample_settings_xml_file))
+	settings.add_setting('url_3', "http://somedomain.com/some_web_page.htm")
+	settings.reload_xml()
+	assert(settings.get_setting('url_3') == "http://somedomain.com/some_web_page.htm")
 

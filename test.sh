@@ -15,7 +15,7 @@
 #
 # Location of html test reports
 # =============================
-# acceptance tests report		-	reports/html/cucumber-html-reports/overview-features.html
+# acceptance tests report	-	reports/html/cucumber-html-reports/overview-features.html
 # unit tests report		-	reports/html/unit/junit-noframes.html
 #  code coverage report		-	reports/html/coverage/index.html
 #

@@ -1,28 +1,34 @@
 """ Mock Kodi RPC handling """
 
 import ast
-
 import cgitb
 cgitb.enable()
-
 from urllib.parse import unquote 
+
+from plexusscraper.config import get_config
+from plexusscraper.kodi.settings import KodiSettingsXml
 
 
 class MockKodiRPCHandler:
+
+	def __init__(self):
+		self.kodi_settings_xml = KodiSettingsXml(get_config()['kodi_settings_xml_path'])
+
+
 	def __add_url(self, params):
 		url_path = params['url_path']
 		url_id = params['url_id']
 		
 		# Add url to settings.xml
-		#
 		# NOTE: In the original version of Plexus Scraper, we only
 		#	ever updated the settings.xml file using the Kodi API:
-		#
 		#	xbmcaddon.Addon(id='program.plexusscraper').setSetting(setting_id,url_path)
-		#
 		#	From now on, we are going to update the xml file ourself directly.
-		#	
-		print("kodi mock rpc server: __addr_url: url_path=", url_path)
+		#
+	
+		print("kodi mock rpc server: __addr_url: url_path=", url_path, " url_id=", url_id)
+		self.kodi_settings_xml.add_setting('url_'+url_id, url_path)
+		
 
 
 	def handle_rpc(self, _path):

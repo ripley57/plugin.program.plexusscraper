@@ -31,23 +31,23 @@ class Browser(object):
 
 
 	def click_link(self, link_text):
-		Browser.click_element((By.XPATH, "//a[@href='{}']".format(link_text)))
+		self.click_element((By.XPATH, "//a[@href='{}']".format(link_text)))
 
 
 	def click_element(self, *locator):
-		Browser._driver_wait.until(EC.visibility_of_element_located(*locator)).click()
+		self._driver_wait.until(EC.visibility_of_element_located(*locator)).click()
 
 
 	def find_element(self, *locator):
-		return Browser._driver_wait.until(EC.visibility_of_element_located(*locator))
+		return self._driver_wait.until(EC.visibility_of_element_located(*locator))
 
 
 	def find_all_elements(self, *locator):
-		return Browser._driver_wait.until(EC.visibility_of_all_elements_located(*locator))
+		return self._driver_wait.until(EC.visibility_of_all_elements_located(*locator))
 
 
 	def refresh(self):
-		Browser._behave_driver.refresh()
+		self._behave_driver.refresh()
 
 
 	#@contextmanager

@@ -1,7 +1,7 @@
 """ Simple file web server to serve files from a specific directory 
 
     To stop the web server, include "PLEASE_TERMINATE_WEB_SERVER" in a request, e.g:
-	http://localhost:9090/PLEASE_TERMINATE_WEB_SERVER
+    http://localhost:9090/PLEASE_TERMINATE_WEB_SERVER
 """
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -10,6 +10,7 @@ import sys
 import time
 
 from plexusscraper.testing.kodi import MockKodiRPCHandler
+
 
 g_terminate = False
 
@@ -24,14 +25,15 @@ class MyRequestHandler(SimpleHTTPRequestHandler):
 			self.send_response(200)
 			self.end_headers()
 			self.wfile.write(b'Terminating web server!')
+
 		elif self.path and (self.path.startswith("/jsonrpc") > 0):
 			kodi = MockKodiRPCHandler()
 			self.send_response(200)
 			self.send_header('Content-type', 'application/json')
 			self.end_headers()
 			self.wfile.write(str.encode(kodi.handle_rpc(self.path)))
+
 		else:
-			print("JCDC 2")
 			return super().do_GET()
 
 class WebServer:

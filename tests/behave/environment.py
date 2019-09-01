@@ -51,8 +51,8 @@ def stop_external_website():
 @fixture
 def external_website(context):
 	""" Simulate a regular website on the Internet to scrape """
-	wait_for_port(8000)
-	web_server_pid = subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "8000"]).pid
+	wait_for_port(909)
+	web_server_pid = subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9090"]).pid
 	#print("web_server_pid=", web_server_pid)
 	context.add_cleanup(stop_external_website)
 	time.sleep(3)	# Give some time for the web server to start-up
@@ -78,12 +78,12 @@ def kodi_mock(context):
 	# TODO: Can we avoid using a hard-coded absolute path to the webinterface.webif files?
 	wait_for_port(8080, kill_process=True, process_name='php')
 	kodi_web_server = psutil.Process(subprocess.Popen(["php", "-S", "localhost:8080", "-t", "/files/08_Github/webinterface.webif/"]).pid)
-	#print("kodi_web_server: pid=", kodi_web_server.pid)
+	print("kodi_web_server: pid=", kodi_web_server.pid)
 
 	# Start mock kodi rpc server.
-	wait_for_port(9090, kill_process=True, process_name='python')
+	wait_for_port(9090, kill_process=True, process_name='python', debug=False)
 	kodi_rpc_server = psutil.Process(subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9090"]).pid)
-	#print("kodi_rpc_server: pid=", kodi_rpc_server.pid)
+	print("kodi_rpc_server: pid=", kodi_rpc_server.pid)
 
 	time.sleep(3)	# Give time for web servers to start-up
 
@@ -91,8 +91,8 @@ def kodi_mock(context):
 
 	# Now stop the mock kodi servers.
 	# (Comment these if you want to play with the servers manually)
-	#requests.get('http://localhost:9090/PLEASE_TERMINATE_WEB_SERVER')
-	#kodi_web_server.terminate()
+	requests.get('http://localhost:9090/PLEASE_TERMINATE_WEB_SERVER')
+	kodi_web_server.terminate()
 
 
 def before_tag(context, tag):

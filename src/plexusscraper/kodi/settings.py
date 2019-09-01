@@ -1,10 +1,15 @@
 import xmltodict
 
 
-class KodiSettings:
+class KodiSettingsXml:
+
 	def __init__(self, _file_path):
 		self.file_path = _file_path
-		self.data = xmltodict.parse(open(_file_path).read())
+		self.reload_xml()
+
+
+	def reload_xml(self):
+		self.data = xmltodict.parse(open(self.file_path).read(), force_list={'setting'})
 
 
 	def get_settings_dict(self):
@@ -19,4 +24,17 @@ class KodiSettings:
 	def get_setting(self, id):
 		settings_dict = self.get_settings_dict()
 		return settings_dict[id]
+
+
+	def add_setting(self, id, url):
+		old_dict = self.get_settings_dict()
+		new_list = []
+		for s_key, s_val in old_dict.items():
+			if s_key == id:
+				s_val = url
+			new_list.append({'@id': s_key, '@value': s_val})
+		new_dict = {'settings': {'setting': new_list}}
+		with open(self.file_path, 'w') as file:
+			file.write(xmltodict.unparse(new_dict, pretty=True))
+		self.reload_xml()
 
