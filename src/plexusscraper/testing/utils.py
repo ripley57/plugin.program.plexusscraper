@@ -43,7 +43,8 @@ def wait_for_port(port, min_wait_secs=0, max_wait_secs=60, kill_process=False, p
 		time_elapsed = time.clock() - start_time
 		if time_elapsed > max_wait_secs:
 			raise RuntimeError("Waited more than {} secs for port {} to become free! (pid={})".format(max_wait_secs, port, pid))
-		print("wait_for_port: elapsed (secs) {}, port {} in use, by pid {}, process {}, cmdline {}".format(time_elapsed, port, pid, exe, cmdline))
+		if debug == True:
+			print("wait_for_port: elapsed (secs) {}, port {} in use, by pid {}, process {}, cmdline {}".format(time_elapsed, port, pid, exe, cmdline))
 		if kill_process == True:
 			try:
 				ps =  psutil.Process(pid) 	

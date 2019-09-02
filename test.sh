@@ -17,7 +17,7 @@
 # =============================
 # acceptance tests report	-	reports/html/cucumber-html-reports/overview-features.html
 # unit tests report		-	reports/html/unit/junit-noframes.html
-#  code coverage report		-	reports/html/coverage/index.html
+# code coverage report		-	reports/html/coverage/index.html
 #
 #
 # JeremyC 26-08-2019
@@ -166,7 +166,7 @@ function run_acceptance_tests()
 # 
 	test_started "acceptance"
 
-	behave tests/behave/ -v -f json -o "reports/TESTS-behave-acceptance.json"
+	behave tests/behave/ -f json -o "reports/TESTS-behave-acceptance.json"
 
 	# Remove zero-byte file that is annoyingly left behind.
 	[ ! -s behave2cucumber.log ] && rm -f behave2cucumber.log
