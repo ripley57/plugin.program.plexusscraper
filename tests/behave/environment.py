@@ -12,12 +12,13 @@ import requests
 import subprocess
 import time
 
-from browser import Browser
-from browser_factory import get_browser
-from plexusscraper.testing.utils import wait_for_port
+from plexusscraper.kodi.settings import KodiSettingsXml
 
-from pages.home_page import HomePage
-from pages.urls_page import UrlsPage
+from plexusscraper.testing.browser.browser import Browser
+from plexusscraper.testing.browser.pages.home_page import HomePage
+from plexusscraper.testing.browser.pages.urls_page import UrlsPage
+from plexusscraper.testing.config import TestConfig
+from plexusscraper.testing.utils import wait_for_port, create_tmpfile, delete_file
 
 
 #
@@ -28,13 +29,15 @@ from pages.urls_page import UrlsPage
 
 @fixture
 def web_browser(context):
-	# TODO: Make this available to browser.py
-	browser = context.config.userdata['browser']
+	# Read value from behave.ini
+	#browser = context.config.userdata['browser']
 
-	context.behave_driver = Browser().get_behave_driver()
-	context.home_page = HomePage(browser)
-	context.urls_page = UrlsPage(browser)
+	context.behave_driver = Browser().get_driver()
+	context.home_page = HomePage()
+	context.urls_page = UrlsPage()
+
 	yield context.behave_driver
+
 	context.behave_driver.quit()
 
 
@@ -44,18 +47,43 @@ def web_browser(context):
 # 	Simulate an external website serving web pages to scrape.
 #
 
-def stop_external_website():
-	""" Our custom web server recognises the following as a request to stop cleanly """
-	requests.get('http://localhost:9090/PLEASE_TERMINATE_WEB_SERVER')
-
 @fixture
 def external_website(context):
 	""" Simulate a regular website on the Internet to scrape """
-	wait_for_port(909)
-	web_server_pid = subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9090"]).pid
-	#print("web_server_pid=", web_server_pid)
-	context.add_cleanup(stop_external_website)
-	time.sleep(3)	# Give some time for the web server to start-up
+
+	wait_for_port(9999, debug=True)
+	web_server_pid = subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9999"]).pid
+	print("web_server_pid=", web_server_pid)
+	time.sleep(2)	# Give some time for the server to start.
+
+	yield
+
+	""" Our custom web server recognises the following as a request to stop cleanly """
+	requests.get('http://localhost:9999/PLEASE_TERMINATE_WEB_SERVER')
+	time.sleep(2)	# Give time for the server to stop.
+
+
+#
+# Fixture: settings_xml
+#
+#	Create a settings.xml file
+#
+
+@fixture
+def settings_xml(context):
+	context.settings_xml_path = create_tmpfile(_suffix='settings_xml')
+	KodiSettingsXml.create(context.settings_xml_path)
+
+	# Add some example url entries.
+	xml_file = KodiSettingsXml(context.settings_xml_path)
+	xml_file.add_setting('url_1', 'http://somedomain.com/pagex.html')
+	xml_file.add_setting('url_2', 'acestream://d387bd5bd1d3f0fd2683eba654aeaf44acac660c')
+	xml_file.add_setting('url_5', 'sop://broker.sopcast.com:3912/264820')
+
+	yield
+
+	# Finished with the xml file.
+	delete_file(context.settings_xml_path)
 
 
 #
@@ -75,29 +103,33 @@ def kodi_mock(context):
 	""" Simulate the Kodi web server and the Kodi rpc server """
 
 	# Start mock kodi web server.
-	# TODO: Can we avoid using a hard-coded absolute path to the webinterface.webif files?
-	wait_for_port(8080, kill_process=True, process_name='php')
-	kodi_web_server = psutil.Process(subprocess.Popen(["php", "-S", "localhost:8080", "-t", "/files/08_Github/webinterface.webif/"]).pid)
+	wait_for_port(8080, kill_process=True, process_name='php', debug=True)
+	webinterface_webif_path = TestConfig.get_config_value('webinterface_webif_path')
+	d = TestConfig.get_env_dict(SETTINGS_XML_PATH=context.settings_xml_path)
+	kodi_web_server = psutil.Process(subprocess.Popen(["php", "-S", "localhost:8080", "-t", webinterface_webif_path], env=d).pid)
 	print("kodi_web_server: pid=", kodi_web_server.pid)
 
 	# Start mock kodi rpc server.
-	wait_for_port(9090, kill_process=True, process_name='python', debug=False)
-	kodi_rpc_server = psutil.Process(subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9090"]).pid)
+	wait_for_port(9090, kill_process=True, process_name='python', debug=True)
+	kodi_rpc_server = psutil.Process(subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9090"], env=d).pid)
 	print("kodi_rpc_server: pid=", kodi_rpc_server.pid)
 
-	time.sleep(3)	# Give time for web servers to start-up
+	time.sleep(3)	# Give time for the servers to start.
 
 	yield	
 
 	# Now stop the mock kodi servers.
-	# (Comment these if you want to play with the servers manually)
+	# (Note: Comment these if you want to play with the servers manually)
 	requests.get('http://localhost:9090/PLEASE_TERMINATE_WEB_SERVER')
 	kodi_web_server.terminate()
+	time.sleep(3)	# Give time for the servers to stop.
 
 
 def before_tag(context, tag):
 	if tag == 'fixture.web_browser':
 		use_fixture(web_browser, context)
+	elif tag == 'fixture.settings_xml':
+		use_fixture(settings_xml, context)
 	elif tag == 'fixture.external_website':
 		use_fixture(external_website, context)
 	elif tag == 'fixture.kodi_mock':

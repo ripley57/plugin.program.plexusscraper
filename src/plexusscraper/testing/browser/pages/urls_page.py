@@ -1,7 +1,8 @@
 import collections
 
 from selenium.webdriver.common.by import By
-from browser import Browser
+
+from plexusscraper.testing.browser.browser import Browser
 
 
 class UrlsPage(Browser):
@@ -18,7 +19,7 @@ class UrlsPage(Browser):
 	URL_SAVE_RESULT = (By.XPATH, "//span[@id='result']")
 
 
-	def __init__(self, _browser):
+	def __init__(self):
 		pass
 
 

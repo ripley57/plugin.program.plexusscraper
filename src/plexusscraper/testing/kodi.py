@@ -3,16 +3,17 @@
 import ast
 import cgitb
 cgitb.enable()
+import os
 from urllib.parse import unquote 
 
-from plexusscraper.config import get_config
 from plexusscraper.kodi.settings import KodiSettingsXml
+from plexusscraper.testing.config import TestConfig
 
 
 class MockKodiRPCHandler:
 
 	def __init__(self):
-		self.kodi_settings_xml = KodiSettingsXml(get_config()['kodi_settings_xml_path'])
+		self.kodi_settings_xml = KodiSettingsXml(os.getenv('SETTINGS_XML_PATH'))
 
 
 	def __add_url(self, params):
@@ -26,9 +27,7 @@ class MockKodiRPCHandler:
 		#	From now on, we are going to update the xml file ourself directly.
 		#
 	
-		print("kodi mock rpc server: __addr_url: url_path=", url_path, " url_id=", url_id)
 		self.kodi_settings_xml.add_setting('url_'+url_id, url_path)
-		
 
 
 	def handle_rpc(self, _path):

@@ -21,6 +21,6 @@ Scenario Outline: Extract links given a url
 
   Examples:
   | url                                 | ace_count | sop_count |
-  | http://localhost:9090/sample_1.html | 5         | 4         |
-  | http://localhost:9090/sample_2.html | 7         | 5         |
+  | http://localhost:9999/sample_1.html | 5         | 4         |
+  | http://localhost:9999/sample_2.html | 7         | 5         |
 

@@ -4,7 +4,7 @@ Feature: Create a plexus history file.
 
 
 Scenario: Create a history file from a downloaded web page and save to a txt file
-  Given a web url http://localhost:9090/sample_2.html
+  Given a web url http://localhost:9999/sample_2.html
    When I generate a plexus history file from a downloaded web page and save to a txt file 
    Then I expect the plexus history file to look like this:
     """
@@ -41,7 +41,7 @@ Scenario: Create a history file from a local html file
 
 
 Scenario: Create a history file from a downloaded web page
-  Given a web url http://localhost:9090/sample_1.html
+  Given a web url http://localhost:9999/sample_1.html
    When I generate a plexus history file from a downloaded web page
    Then I expect the plexus history file to look like this
      """

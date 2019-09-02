@@ -160,15 +160,16 @@ function run_acceptance_tests()
 # Installation:
 # pip install behave
 #
+# NOTE:	To re-run one particular scenario, insert "@wip" above the scenario definition
+#	in the corresponding .feature file and then run with the --tags"@wip@" option:
+#		behave tests/behave --tags="@wip"
+# 
 	test_started "acceptance"
 
-	behave tests/behave/ -f json -o "reports/TESTS-behave-acceptance.json"
+	behave tests/behave/ -v -f json -o "reports/TESTS-behave-acceptance.json"
 
 	# Remove zero-byte file that is annoyingly left behind.
-	if [ ! -s behave2cucumber.log ]
-	then 
-		rm -f behave2cucumber.log
-	fi
+	[ ! -s behave2cucumber.log ] && rm -f behave2cucumber.log
 
 	test_completed "acceptance"
 }

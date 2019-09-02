@@ -38,3 +38,15 @@ class KodiSettingsXml:
 			file.write(xmltodict.unparse(new_dict, pretty=True))
 		self.reload_xml()
 
+
+	@classmethod
+	def create(cls, file_path):
+		""" Create an empty settings.xml file """
+		new_dict = { 'settings'  : { 'setting' : [ 	{ '@id' : 'url_1', '@value' : '' },
+								{ '@id' : 'url_2', '@value' : '' },
+								{ '@id' : 'url_3', '@value' : '' },
+								{ '@id' : 'url_4', '@value' : '' },
+								{ '@id' : 'url_5', '@value' : '' }	]	}	}
+		with open(file_path, 'w') as file:
+			file.write(xmltodict.unparse(new_dict, pretty=True))
+

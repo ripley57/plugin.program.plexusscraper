@@ -1,5 +1,6 @@
 @acceptance
 @fixture.web_browser
+@fixture.settings_xml
 @fixture.kodi_mock
 Feature:  Plexus Scraper web interface
 As a user
