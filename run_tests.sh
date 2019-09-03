@@ -5,10 +5,10 @@
 # Example usage:
 #
 # 	Run all tests (generating json/xml results in the "reports/" directory):
-#	./test.sh all
+#	./run_tests.sh all
 #
 #	Run unit and acceptance tests, and generate code coverage report:
-#	./test.sh unit acceptance coverage
+#	./run_tests.sh unit acceptance coverage
 #
 #	Generate html reports from the json/xml test results:
 #	mvn verify
@@ -90,7 +90,7 @@ function install_python_dependencies()
 	# package somewhere else in the module search path (sys.path).
 
 	# dependencies for testing
-	pip install pytest pytest-cov pytest-mock behave behave-webdriver wheel behave2cucumber nose --ignore-installed
+	pip install pytest pytest-cov pytest-mock behave behave-webdriver wheel behave2cucumber nose psutil --ignore-installed
 
 	# dependencies of our program
 	pip install bs4 requests click xmltodict --ignore-installed
