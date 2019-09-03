@@ -1,3 +1,5 @@
+""" Unit tests KodiSettingsXml class """
+
 import pytest
 
 from plexusscraper.kodi.settings import KodiSettingsXml
@@ -5,6 +7,7 @@ from plexusscraper.kodi.settings import KodiSettingsXml
 
 @pytest.fixture()
 def sample_settings_xml_file(tmpdir):
+	""" Fixture to create a sample settings.xml file """
 	xml_file = tmpdir.join('settings.xml')
 	#print("file path:", str(xml_file))
 	
@@ -28,7 +31,7 @@ def test_read_sample_settings_xml(sample_settings_xml_file):
 	assert(settings.get_setting('url_4') == "/storage/wolves.html")
 
 
-def test_add_setting_xml(sample_settings_xml_file):
+def test_write_setting_xml(sample_settings_xml_file):
 	settings = KodiSettingsXml(str(sample_settings_xml_file))
 	settings.add_setting('url_3', "http://somedomain.com/some_web_page.htm")
 	settings.reload_xml()

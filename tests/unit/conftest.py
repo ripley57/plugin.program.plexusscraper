@@ -1,7 +1,7 @@
 # conftest.py
 #
-# To share fixtures among multiple test files, we need to use a 
-# conftest.py file somewhere centrally located for all of the tests.
+# To share pytest fixtures among multiple test files, we need to use
+# a conftest.py file somewhere centrally located for all of the tests.
 #
 # You can have other conftest.py files in subdirectories of the top
 # tests directory. If you do, fixtures defined in these lower-level 

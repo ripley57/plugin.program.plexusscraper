@@ -1,5 +1,4 @@
-""" Unit tests for the PlexusHistoryFile class.
-"""
+""" Unit tests for the PlexusHistoryFile class. """
 
 import unittest
 

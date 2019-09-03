@@ -1,3 +1,5 @@
+""" Test the command-line interface (ps_cli.py) """
+
 from click.testing import CliRunner
 
 import pytest
@@ -5,6 +7,7 @@ import pytest
 import plexusscraper.ps_cli
 
 
+# Fixture called implicitly by some of the tests below.
 def some_links_without_titles(dummy_param):
 	""" Note that we have a dummy parameter. This is so that we can replace
 	calls to LinkServer.extra_links_html() with it using a mock. We get an 
@@ -18,6 +21,34 @@ def some_links_without_titles(dummy_param):
 		'sop://broker.sopcast.com:3912/264751',
 		'sop://broker.sopcast.com:3912/264752',
 	)
+
+
+def test_help():
+	runner = CliRunner()
+	result = runner.invoke(plexusscraper.ps_cli.scrape, ['--help'])
+	expected_result = """\
+Usage: scrape [OPTIONS]
+
+  Scrape sopcast and acestream urls from various sources.  If requested,
+  display the scraped urls in Plexus history.txt format; otherwise display
+  them as raw links.
+
+  Example:
+
+       python ps_cli.py scrape --url http://someurl.com --html-file
+      /storage/file.html --acestream
+      acestream://78637dab85e7948057165ad0c80b3db475dd9c3d --sopcast
+      sop://broker.sopcast.com:3912/265589
+
+Options:
+  -u, --url URL              website URL
+  -f, --html-file PATH       path to a local html file
+  -s, --sopcast SOPCAST      sopcast url
+  -a, --acestream ACESTREAM  acestream url
+  --history-file             Generate Plexus history.txt content
+  --help                     Show this message and exit.
+"""
+	assert result.output == expected_result
 
 
 def test_url_args(mocker):
