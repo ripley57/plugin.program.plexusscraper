@@ -6,7 +6,7 @@ import os
 
 class TestConfig:
 
-	_OPTIONS = { 	'webinterface_webif_path' : '/files/08_Github/webinterface.webif/'	}
+	_OPTIONS = { 	'webinterface_webif_path' : 'submodule_webif/'	}
 
 	@classmethod
 	def get_config_value(cls, name):

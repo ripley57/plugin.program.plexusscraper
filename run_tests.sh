@@ -41,6 +41,14 @@ EOI
 fi
 
 
+# We access the webinterface_webif add files as a git submodule.
+# First we will ensure we have the latest files of the submodule.
+# References:
+# https://github.blog/2016-02-01-working-with-submodules/
+# https://www.vogella.com/tutorials/GitSubmodules/article.html
+git submodule update --init --recursive
+
+
 # Keep track of the tests that have run to completion, or not.
 # With all the output streaming past, it is difficult to see
 # which tests actually completed. We use a simple bash hash.

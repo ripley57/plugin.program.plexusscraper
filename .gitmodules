@@ -1,0 +1,3 @@
+[submodule "submodule_webif"]
+	path = submodule_webif
+	url = https://github.com/ripley57/webinterface.webif.git
