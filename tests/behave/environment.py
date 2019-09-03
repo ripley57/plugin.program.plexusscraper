@@ -51,12 +51,13 @@ def external_website(context):
 	wait_for_port(9999, debug=False)
 	web_server_pid = subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9999"]).pid
 	print("web_server_pid=", web_server_pid)
-	time.sleep(2)	# Give some time for the server to start.
+	time.sleep(10)	# Give some time for the server to start.
 
 	yield
 
 	""" Our custom web server recognises the following as a request to stop cleanly """
 	requests.get('http://localhost:9999/PLEASE_TERMINATE_WEB_SERVER')
+	time.sleep(3)	# Give time for the server to stop.
 
 
 #
@@ -99,14 +100,14 @@ def kodi_mock(context):
 	""" Simulate the Kodi web server and the Kodi rpc server """
 
 	# Start mock kodi web server.
-	wait_for_port(8080, kill_process=True, process_name='php', debug=True)
+	wait_for_port(8080, kill_process=True, process_name='php', debug=False)
 	webinterface_webif_path = TestConfig.get_config_value('webinterface_webif_path')
 	d = TestConfig.get_env_dict(SETTINGS_XML_PATH=context.settings_xml_path)
 	kodi_web_server = psutil.Process(subprocess.Popen(["php", "-S", "localhost:8080", "-t", webinterface_webif_path], env=d).pid)
 	print("kodi_web_server: pid=", kodi_web_server.pid)
 
 	# Start mock kodi rpc server.
-	wait_for_port(9090, kill_process=True, process_name='python', debug=True)
+	wait_for_port(9090, kill_process=True, process_name='python', debug=False)
 	kodi_rpc_server = psutil.Process(subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9090"], env=d).pid)
 	print("kodi_rpc_server: pid=", kodi_rpc_server.pid)
 

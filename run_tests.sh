@@ -7,20 +7,21 @@
 # 	Run all tests (generating json/xml results in the "reports/" directory):
 #	./run_tests.sh all
 #
-#	Run unit and acceptance tests, and generate code coverage report:
-#	./run_tests.sh unit acceptance coverage
+#	Run unit and acceptance tests:
+#	./run_tests.sh unit acceptance
 #
-#	Generate html reports from the json/xml test results:
+#	To generate html test reports (from the json/xml results):
 #	mvn verify
 #
-# Location of html test reports
-# =============================
-# acceptance tests report	-	reports/html/cucumber-html-reports/overview-features.html
-# unit tests report		-	reports/html/unit/junit-noframes.html
-# code coverage report		-	reports/html/coverage/index.html
+#
+# 	Location of html test reports
+# 	=============================
+# 	acceptance tests 	-	reports/html/cucumber-html-reports/overview-features.html
+# 	unit tests		-	reports/html/unit/junit-noframes.html
+# 	code coverage		-	reports/html/coverage/index.html
 #
 #
-# JeremyC 26-08-2019
+# JeremyC
 
 set -e
 set +x
@@ -33,7 +34,7 @@ then
 	cat <<EOI
 
 usage:
-	$SCRIPTNAME [--help|unit|acceptance|coverage|html|all]
+	$SCRIPTNAME [--help|unit|acceptance|coverage|all]
 
 EOI
 	exit 1
@@ -60,7 +61,7 @@ function tests_run_summary()
 	local _state
 
 	if [[ ${#tests_run_array[@]} -gt 0 ]]; then
-		printf "\n\tTests ran:\n\n"
+		printf "\n\tTests run:\n"
 		for _name in "${!tests_run_array[@]}"; do 
 			_state=${tests_run_array["$_name"]}
 			printf "\t%-15s : %s\n" "$_name" "$_state"
@@ -207,7 +208,8 @@ function run_unit_tests()
 #
 	test_started "unit"
 
-	pytest tests/unit -vv --junit-xml=reports/TESTS-unit.xml
+	# Run unit tests, skipping any slow ones.
+	pytest tests/unit -vv --junit-xml=reports/TESTS-unit.xml -m 'not slow'
 
 	# We later use the Maven Ant plugin (see pom.xml) to convert this xml
 	# file to html. The Ant junitreport task only expects the xml file to
@@ -235,22 +237,21 @@ function run_code_coverage()
 # Installation:
 # pip install pytest-cov
 #
-	test_started "code coverage"
+       test_started "code coverage"
 
-	pytest --cov=src --cov-report html:reports/html/coverage
+       pytest -vv -s --cov=src --cov-report html:reports/html/coverage tests/unit/
 
-	test_completed "code coverage"
+       test_completed "code coverage"
 }
 
 
 function generate_html_reports()
 {
-	test_started "generate html reports"
+       test_started "generate html reports"
 
-	# Use maven "mvn" (which you will need to install)
-	mvn verify
+       mvn verify
 
-	test_completed "generate html reports"
+       test_completed "generate html reports"
 }
 
 
@@ -258,12 +259,20 @@ function how_to_generate_html_reports()
 {
 	cat << EOI
 
-	To generate html reports in "reports/html", run the following:
+	To generate html test reports in "reports/html":
+	(Note: You will need to install Maven to run this)
 
 	mvn verify
 
 EOI
 }
+
+
+function run_test()
+{
+	# "-s" includes output (captured by default, any only displayed if test fails)
+	pytest -s tests/unit/test_urldownloader.py
+} 
 
 
 for arg in "$@"; do
@@ -285,6 +294,9 @@ for arg in "$@"; do
 		run_unit_tests "$@"
 		run_acceptance_tests "$@"
 		run_code_coverage "$@"
+		;;
+	"run_test")
+		run_test "$@"
 		;;
 	esac
 done

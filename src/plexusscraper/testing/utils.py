@@ -24,7 +24,7 @@ def delete_file(file_path):
 	os.unlink(file_path)
 
 
-def wait_for_port(port, min_wait_secs=0, max_wait_secs=60, kill_process=False, process_name=None, debug=False):
+def wait_for_port(port, min_wait_secs=0, max_wait_secs=120, kill_process=False, process_name=None, debug=False):
 	""" Wait for port to become free. Optionally kill the associated process. """
 
 	start_time = time.clock()
@@ -43,8 +43,8 @@ def wait_for_port(port, min_wait_secs=0, max_wait_secs=60, kill_process=False, p
 		# https://stackoverflow.com/questions/5598181/python-multiple-prints-on-the-same-line
 		print("waited {} secs for port {} to become available\r".format(int(time_elapsed), port), end='', flush=True)
 
-		#if debug == True:
-		#	print("wait_for_port: elapsed (secs) {}, port {} in use, by pid {}, process {}, cmdline {}".format(time_elapsed, port, pid, exe, cmdline))
+		if debug == True:
+			print("wait_for_port: elapsed (secs) {}, port {} in use, by pid {}, process {}, cmdline {}".format(time_elapsed, port, pid, exe, cmdline))
 
 		if kill_process == True:
 			try:
@@ -61,6 +61,7 @@ def wait_for_port(port, min_wait_secs=0, max_wait_secs=60, kill_process=False, p
 				time.sleep(1)	# Give time for process clean-up.
 			except:
 				pass
+	print("")
 
 
 def check_port(port, raise_exception=True):
@@ -80,9 +81,9 @@ def check_port(port, raise_exception=True):
 	return ('', '', '', '')
 
 
-def check_port2(port):
-	""" Check if specified port is free, by trying to connect to it. """
-	import socket
-	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-		return s.connect_ex(('localhost', port)) == 0
+#def check_port2(port):
+#	""" Check if specified port is free, by trying to connect to it. """
+#	import socket
+#	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+#		return s.connect_ex(('localhost', port)) == 0
 

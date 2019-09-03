@@ -1,35 +1,27 @@
-""" Unit tests for the URLDownloader class.
-
-	NOTE: 	This probably shouldn't be a unit test, since it inserts a several
-		second delay to wait for the web server to start. This therefore
-		should probably be an integration test.
-"""
+""" Unit tests for the URLDownloader class. """
 
 import pytest
+import requests
 import subprocess
 import time
-import unittest
 
 from plexusscraper.urldownloader import URLDownloader
-from plexusscraper.testing.webserver import WebServer
+from plexusscraper.testing.utils import wait_for_port
 
-class TestURLDownloader(unittest.TestCase):
 
-	@classmethod
-	def setUpClass(cls):
-		web_server_pid = subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9999"]).pid
-		print("web_server_pid=", web_server_pid)
-		time.sleep(3)	# Give time for the web server to start
+@pytest.fixture()
+def external_website():
+	wait_for_port(9000, debug=False)
+	web_server_pid = subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9000"]).pid
+	print("web_server_pid=", web_server_pid)
+	time.sleep(2)
+	yield
+	requests.get('http://localhost:9000/PLEASE_TERMINATE_WEB_SERVER')
 
-	@classmethod
-	def tearDownClass(cls):
-		downloader = URLDownloader()
-		text = downloader.download('http://localhost:9999/PLEASE_TERMINATE_WEB_SERVER')
 
-	@pytest.mark.slow
-	def test_download_valid_url(self):
-		downloader = URLDownloader()
-		(status, text) = downloader.download('http://localhost:9999/sample_1.html')
-		#print("status=", status)
-		self.assertTrue(status == 200 and len(text) > 0, 'web page not downloaded')
+@pytest.mark.slow
+def test_download_valid_url(external_website):
+	time.sleep(10)	# NOTE: Need this for some reason - to avoid connection error (errno 111).
+	(status, text) = URLDownloader.download('http://localhost:9000/sample_1.html')
+	assert(status == 200 and len(text) > 0)
 
