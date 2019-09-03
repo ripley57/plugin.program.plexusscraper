@@ -172,6 +172,8 @@ function run_acceptance_tests()
 
 	behave tests/behave/ -f json -o "reports/TESTS-behave-acceptance.json"
 
+	python -m behave2cucumber -i reports/TESTS-behave-acceptance.json -o reports/TESTS-cucumber-acceptance.json
+
 	# Remove zero-byte file that is annoyingly left behind.
 	[ ! -s behave2cucumber.log ] && rm -f behave2cucumber.log
 

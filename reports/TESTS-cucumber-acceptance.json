@@ -1,0 +1,1158 @@
+[
+    {
+        "keyword": "Feature",
+        "name": "Extract acestream and sopcast links from a web page",
+        "tags": [
+            {
+                "name": "@functional",
+                "line": 2
+            },
+            {
+                "name": "@fixture.external_website",
+                "line": 2
+            }
+        ],
+        "elements": [
+            {
+                "type": "scenario",
+                "keyword": "Scenario Outline",
+                "name": "Extract links given the path to a local html file -- @1.1 ",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "the local file tests/resources/html/sample_1.html",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:6",
+                            "arguments": [
+                                {
+                                    "value": "tests/resources/html/sample_1.html",
+                                    "name": "file_path"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0011355876922607422
+                        },
+                        "line": 7
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I extract all links",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:16",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.372192621231079
+                        },
+                        "line": 8
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I should get 5 acestream links and 4 sopcast links",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:26",
+                            "arguments": [
+                                {
+                                    "value": 5,
+                                    "name": "ace_count",
+                                    "original": "5"
+                                },
+                                {
+                                    "value": 4,
+                                    "name": "sop_count",
+                                    "original": "4"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0006952285766601562
+                        },
+                        "line": 9
+                    }
+                ],
+                "line": 13,
+                "uri": "tests/behave/extract_links.feature",
+                "description": "",
+                "id": 1
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario Outline",
+                "name": "Extract links given the path to a local html file -- @1.2 ",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "the local file tests/resources/html/sample_2.html",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:6",
+                            "arguments": [
+                                {
+                                    "value": "tests/resources/html/sample_2.html",
+                                    "name": "file_path"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0005443096160888672
+                        },
+                        "line": 7
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I extract all links",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:16",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.2021188735961914
+                        },
+                        "line": 8
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I should get 7 acestream links and 5 sopcast links",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:26",
+                            "arguments": [
+                                {
+                                    "value": 7,
+                                    "name": "ace_count",
+                                    "original": "7"
+                                },
+                                {
+                                    "value": 5,
+                                    "name": "sop_count",
+                                    "original": "5"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.00046825408935546875
+                        },
+                        "line": 9
+                    }
+                ],
+                "line": 14,
+                "uri": "tests/behave/extract_links.feature",
+                "description": "",
+                "id": 2
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario Outline",
+                "name": "Extract links given a url -- @1.1 ",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "the url http://localhost:9999/sample_1.html",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:11",
+                            "arguments": [
+                                {
+                                    "value": "http://localhost:9999/sample_1.html",
+                                    "name": "url"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0005958080291748047
+                        },
+                        "line": 18
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I download and extract all links",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:21",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.3000340461730957
+                        },
+                        "line": 19
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I should get 5 acestream links and 4 sopcast links",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:26",
+                            "arguments": [
+                                {
+                                    "value": 5,
+                                    "name": "ace_count",
+                                    "original": "5"
+                                },
+                                {
+                                    "value": 4,
+                                    "name": "sop_count",
+                                    "original": "4"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0005261898040771484
+                        },
+                        "line": 20
+                    }
+                ],
+                "line": 24,
+                "uri": "tests/behave/extract_links.feature",
+                "description": "",
+                "id": 3
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario Outline",
+                "name": "Extract links given a url -- @1.2 ",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "the url http://localhost:9999/sample_2.html",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:11",
+                            "arguments": [
+                                {
+                                    "value": "http://localhost:9999/sample_2.html",
+                                    "name": "url"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0005621910095214844
+                        },
+                        "line": 18
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I download and extract all links",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:21",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.238783597946167
+                        },
+                        "line": 19
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I should get 7 acestream links and 5 sopcast links",
+                        "match": {
+                            "location": "tests/behave/steps/extract_links_steps.py:26",
+                            "arguments": [
+                                {
+                                    "value": 7,
+                                    "name": "ace_count",
+                                    "original": "7"
+                                },
+                                {
+                                    "value": 5,
+                                    "name": "sop_count",
+                                    "original": "5"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0004961490631103516
+                        },
+                        "line": 20
+                    }
+                ],
+                "line": 25,
+                "uri": "tests/behave/extract_links.feature",
+                "description": "",
+                "id": 4
+            }
+        ],
+        "line": 3,
+        "uri": "tests/behave/extract_links.feature",
+        "description": "",
+        "id": 0
+    },
+    {
+        "keyword": "Feature",
+        "name": "Create a plexus history file.",
+        "tags": [
+            {
+                "name": "@functional",
+                "line": 2
+            },
+            {
+                "name": "@fixture.external_website",
+                "line": 2
+            }
+        ],
+        "elements": [
+            {
+                "type": "scenario",
+                "keyword": "Scenario",
+                "name": "Create a history file from a downloaded web page and save to a txt file",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "a web url http://localhost:9999/sample_2.html",
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:22",
+                            "arguments": [
+                                {
+                                    "value": "http://localhost:9999/sample_2.html",
+                                    "name": "url"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0018954277038574219
+                        },
+                        "line": 7
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I generate a plexus history file from a downloaded web page and save to a txt file",
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:34",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.5719869136810303
+                        },
+                        "line": 8
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect the plexus history file to look like this",
+                        "text": [
+                            "ACE_01|acestream://78637dab85e7948057165ad0c80b3db475dd9c3d|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_02|acestream://8d9094e60cac92486cd23d1311a4ef1261a337ed|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_03|acestream://c389afdd68246467538cec05eace0ca6410e4bb4|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_04|acestream://ea1b551f853a6b2caa23eba805c5d093cba8754d|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_05|acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_06|acestream://edea841c6cf26dae745d6bb71e62176402f30d35|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_07|acestream://fdfee279394421f2ea89078150e1a2bb7d13f5ce|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "SOP_01|sop://broker.sopcast.com:3912/264740|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_02|sop://broker.sopcast.com:3912/264750|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_03|sop://broker.sopcast.com:3912/264752|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_04|sop://broker.sopcast.com:3912/264830|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_05|sop://broker.sopcast.com:3912/265589|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg"
+                        ],
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:71",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0012269020080566406
+                        },
+                        "line": 9
+                    }
+                ],
+                "line": 6,
+                "uri": "tests/behave/plexus_history_file.feature",
+                "description": "",
+                "id": 2
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario",
+                "name": "Create a history file from a local html file",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "a local html file tests/resources/html/sample_1.html",
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:7",
+                            "arguments": [
+                                {
+                                    "value": "tests/resources/html/sample_1.html",
+                                    "name": "file"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0006134510040283203
+                        },
+                        "line": 27
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I generate a plexus history file from a local html file",
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:53",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.542069673538208
+                        },
+                        "line": 28
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect the plexus history file to look like this",
+                        "text": [
+                            "ACE_01|acestream://78637dab85e7948057165ad0c80b3db475dd9c3d|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_02|acestream://c389afdd68246467538cec05eace0ca6410e4bb4|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_03|acestream://ea1b551f853a6b2caa23eba805c5d093cba8754d|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_04|acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_05|acestream://edea841c6cf26dae745d6bb71e62176402f30d35|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "SOP_01|sop://broker.sopcast.com:3912/264740|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_02|sop://broker.sopcast.com:3912/264750|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_03|sop://broker.sopcast.com:3912/264830|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_04|sop://broker.sopcast.com:3912/265589|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg"
+                        ],
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:71",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.000732421875
+                        },
+                        "line": 29
+                    }
+                ],
+                "line": 26,
+                "uri": "tests/behave/plexus_history_file.feature",
+                "description": "",
+                "id": 3
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario",
+                "name": "Create a history file from a downloaded web page",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "a web url http://localhost:9999/sample_1.html",
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:22",
+                            "arguments": [
+                                {
+                                    "value": "http://localhost:9999/sample_1.html",
+                                    "name": "url"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.000675201416015625
+                        },
+                        "line": 44
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I generate a plexus history file from a downloaded web page",
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:47",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.3391191959381104
+                        },
+                        "line": 45
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect the plexus history file to look like this",
+                        "text": [
+                            "ACE_01|acestream://78637dab85e7948057165ad0c80b3db475dd9c3d|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_02|acestream://c389afdd68246467538cec05eace0ca6410e4bb4|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_03|acestream://ea1b551f853a6b2caa23eba805c5d093cba8754d|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_04|acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_05|acestream://edea841c6cf26dae745d6bb71e62176402f30d35|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "SOP_01|sop://broker.sopcast.com:3912/264740|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_02|sop://broker.sopcast.com:3912/264750|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_03|sop://broker.sopcast.com:3912/264830|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_04|sop://broker.sopcast.com:3912/265589|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg"
+                        ],
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:71",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0007545948028564453
+                        },
+                        "line": 46
+                    }
+                ],
+                "line": 43,
+                "uri": "tests/behave/plexus_history_file.feature",
+                "description": "",
+                "id": 4
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario",
+                "name": "Create a history file from html containing acestream and sopcast urls",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "a string of html",
+                        "text": [
+                            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">",
+                            "<html lang=\"de\">",
+                            "<head>",
+                            "<title>Sheffield Utd &ndash; Crystal Palace. LiveStream, Live \u00dcbertragung: / Fu&#223;ball. England. Premier League / 18 August / LiveTV</title>",
+                            "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; CHARSET=ISO-8859-1\">",
+                            "</head>",
+                            "<body>",
+                            "<table  width=166 height=26 cellpadding=0 cellspacing=0  class=\"lnktbj\">",
+                            "<tr>\t\t\t\t\t",
+                            "<td align=\"right\" width=15><a href=\"sop://broker.sopcast.com:3912/264750\"><img title=\"\u00ce\u00f2\u00ea\u00f0\u00fb\u00f2\u00fc \u00e2 \u00ef\u00f0\u00e8\u00eb\u00ee\u00e6\u00e5\u00ed\u00e8\u00e8\" src=\"//cdn.livetvcdn.club/img/webtv.gif\"></a></td>",
+                            "<td align=\"right\" width=15><a href=\"sop://broker.sopcast.com:3912/265589\"><img title=\"\u00ce\u00f2\u00ea\u00f0\u00fb\u00f2\u00fc \u00e2 \u00ef\u00f0\u00e8\u00eb\u00ee\u00e6\u00e5\u00ed\u00e8\u00e8\" src=\"//cdn.livetvcdn.club/img/webtv.gif\"></a></td>",
+                            "<td align=\"right\" width=15><a href=\"sop://broker.sopcast.com:3912/264740\"><img title=\"\u00ce\u00f2\u00ea\u00f0\u00fb\u00f2\u00fc \u00e2 \u00ef\u00f0\u00e8\u00eb\u00ee\u00e6\u00e5\u00ed\u00e8\u00e8\" src=\"//cdn.livetvcdn.club/img/webtv.gif\"></a></td>",
+                            "</tr>",
+                            "</table>",
+                            "<table  width=166 height=26 cellpadding=0 cellspacing=0  class=\"lnktbj\">",
+                            "<tr>",
+                            "<td align=\"right\" width=15><a href=\"acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9\"><img title=\"\u00ce\u00f2\u00ea\u00f0\u00fb\u00f2\u00fc \u00e2 \u00ef\u00f0\u00e8\u00eb\u00ee\u00e6\u00e5\u00ed\u00e8\u00e8\" src=\"//cdn.livetvcdn.club/img/webtv.gif\"></a></td>",
+                            "<td align=\"right\" width=15><a href=\"acestream://78637dab85e7948057165ad0c80b3db475dd9c3d\"><img title=\"\u00ce\u00f2\u00ea\u00f0\u00fb\u00f2\u00fc \u00e2 \u00ef\u00f0\u00e8\u00eb\u00ee\u00e6\u00e5\u00ed\u00e8\u00e8\" src=\"//cdn.livetvcdn.club/img/webtv.gif\"></a></td>",
+                            "<td align=\"right\" width=15><a href=\"acestream://c389afdd68246467538cec05eace0ca6410e4bb4\"><img title=\"\u00ce\u00f2\u00ea\u00f0\u00fb\u00f2\u00fc \u00e2 \u00ef\u00f0\u00e8\u00eb\u00ee\u00e6\u00e5\u00ed\u00e8\u00e8\" src=\"//cdn.livetvcdn.club/img/webtv.gif\"></a></td>",
+                            "</tr>",
+                            "</table>",
+                            "</body>",
+                            "</html>"
+                        ],
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:12",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0006077289581298828
+                        },
+                        "line": 61
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I generate a plexus history file from a string of html",
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:59",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.009683847427368164
+                        },
+                        "line": 87
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect the plexus history file to look like this",
+                        "text": [
+                            "ACE_01|acestream://78637dab85e7948057165ad0c80b3db475dd9c3d|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_02|acestream://c389afdd68246467538cec05eace0ca6410e4bb4|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_03|acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "SOP_01|sop://broker.sopcast.com:3912/264740|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_02|sop://broker.sopcast.com:3912/264750|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_03|sop://broker.sopcast.com:3912/265589|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg"
+                        ],
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:71",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0006899833679199219
+                        },
+                        "line": 88
+                    }
+                ],
+                "line": 60,
+                "uri": "tests/behave/plexus_history_file.feature",
+                "description": "",
+                "id": 5
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario",
+                "name": "Create a history file from a string of raw acestream and sopcast urls",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "a string of raw urls",
+                        "text": "SOP_EX_1|sop://broker.sopcast.com:3912/26475,sop://broker.sopcast.com:3912/265589,ACE 1|acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9,acestream://c389afdd68246467538cec05eace0ca6410e4bb4",
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:17",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0006098747253417969
+                        },
+                        "line": 99
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I generate a plexus history file from a string of raw urls",
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:65",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.0008981227874755859
+                        },
+                        "line": 103
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect the plexus history file to look like this",
+                        "text": [
+                            "ACE 1|acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "ACE_01|acestream://c389afdd68246467538cec05eace0ca6410e4bb4|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png",
+                            "SOP_01|sop://broker.sopcast.com:3912/265589|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg",
+                            "SOP_EX_1|sop://broker.sopcast.com:3912/26475|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg"
+                        ],
+                        "match": {
+                            "location": "tests/behave/steps/plexus_history_file_steps.py:71",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.00054931640625
+                        },
+                        "line": 104
+                    }
+                ],
+                "line": 98,
+                "uri": "tests/behave/plexus_history_file.feature",
+                "description": "",
+                "id": 6
+            }
+        ],
+        "line": 3,
+        "uri": "tests/behave/plexus_history_file.feature",
+        "description": "",
+        "id": 1
+    },
+    {
+        "keyword": "Feature",
+        "name": "Plexus Scraper web interface",
+        "tags": [
+            {
+                "name": "@acceptance",
+                "line": 4
+            },
+            {
+                "name": "@fixture.web_browser",
+                "line": 4
+            },
+            {
+                "name": "@fixture.settings_xml",
+                "line": 4
+            },
+            {
+                "name": "@fixture.kodi_mock",
+                "line": 4
+            }
+        ],
+        "description": "",
+        "elements": [
+            {
+                "type": "scenario",
+                "keyword": "Scenario",
+                "name": "Load the main web page",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "I open the url \"http://localhost:8080/index.html\"",
+                        "match": {
+                            "location": "venv/lib/python3.6/site-packages/behave_webdriver/steps/actions_re.py:60",
+                            "arguments": [
+                                {
+                                    "value": "http://localhost:8080/index.html"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.138979434967041
+                        },
+                        "line": 12
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect that the title is \"My own Kodi Web Interface Addon\"",
+                        "match": {
+                            "location": "venv/lib/python3.6/site-packages/behave_webdriver/steps/expectations.py:25",
+                            "arguments": [
+                                {
+                                    "value": null
+                                },
+                                {
+                                    "value": "My own Kodi Web Interface Addon"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.04427385330200195
+                        },
+                        "line": 13
+                    }
+                ],
+                "line": 11,
+                "uri": "tests/behave/web_interface.feature",
+                "description": "",
+                "id": 3
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario",
+                "name": "View the plexus scraper urls web page",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "I open the url \"http://localhost:8080/index.html\"",
+                        "match": {
+                            "location": "venv/lib/python3.6/site-packages/behave_webdriver/steps/actions_re.py:60",
+                            "arguments": [
+                                {
+                                    "value": "http://localhost:8080/index.html"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.34502291679382324
+                        },
+                        "line": 23
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I click on the link named \"plexus.php\"",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:6",
+                            "arguments": [
+                                {
+                                    "value": "plexus.php",
+                                    "name": "link_text"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.1911931037902832
+                        },
+                        "line": 24
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect to see some existing plexus scraper urls",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:16",
+                            "arguments": []
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.5502641201019287
+                        },
+                        "line": 25
+                    }
+                ],
+                "line": 22,
+                "uri": "tests/behave/web_interface.feature",
+                "description": "",
+                "id": 4
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario Outline",
+                "name": "Add a new plexus scraper url -- @1.1 ",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "I open the url \"http://localhost:8080/plexus.php\"",
+                        "match": {
+                            "location": "venv/lib/python3.6/site-packages/behave_webdriver/steps/actions_re.py:60",
+                            "arguments": [
+                                {
+                                    "value": "http://localhost:8080/plexus.php"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.7815067768096924
+                        },
+                        "line": 29
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I save a new url http://somedomain.com/page_1.htm in slot url_1",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:11",
+                            "arguments": [
+                                {
+                                    "value": "http://somedomain.com/page_1.htm",
+                                    "name": "url"
+                                },
+                                {
+                                    "value": "url_1",
+                                    "name": "slot"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 2.0945284366607666
+                        },
+                        "line": 30
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect http://somedomain.com/page_1.htm to be saved in slot url_1",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:22",
+                            "arguments": [
+                                {
+                                    "value": "http://somedomain.com/page_1.htm",
+                                    "name": "url"
+                                },
+                                {
+                                    "value": "url_1",
+                                    "name": "slot"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.9068870544433594
+                        },
+                        "line": 31
+                    }
+                ],
+                "line": 35,
+                "uri": "tests/behave/web_interface.feature",
+                "description": "",
+                "id": 5
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario Outline",
+                "name": "Add a new plexus scraper url -- @1.2 ",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "I open the url \"http://localhost:8080/plexus.php\"",
+                        "match": {
+                            "location": "venv/lib/python3.6/site-packages/behave_webdriver/steps/actions_re.py:60",
+                            "arguments": [
+                                {
+                                    "value": "http://localhost:8080/plexus.php"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.528949499130249
+                        },
+                        "line": 29
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I save a new url http://somedomain.com/page_2.htm in slot url_2",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:11",
+                            "arguments": [
+                                {
+                                    "value": "http://somedomain.com/page_2.htm",
+                                    "name": "url"
+                                },
+                                {
+                                    "value": "url_2",
+                                    "name": "slot"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.7981488704681396
+                        },
+                        "line": 30
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect http://somedomain.com/page_2.htm to be saved in slot url_2",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:22",
+                            "arguments": [
+                                {
+                                    "value": "http://somedomain.com/page_2.htm",
+                                    "name": "url"
+                                },
+                                {
+                                    "value": "url_2",
+                                    "name": "slot"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.994509220123291
+                        },
+                        "line": 31
+                    }
+                ],
+                "line": 36,
+                "uri": "tests/behave/web_interface.feature",
+                "description": "",
+                "id": 6
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario Outline",
+                "name": "Add a new plexus scraper url -- @1.3 ",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "I open the url \"http://localhost:8080/plexus.php\"",
+                        "match": {
+                            "location": "venv/lib/python3.6/site-packages/behave_webdriver/steps/actions_re.py:60",
+                            "arguments": [
+                                {
+                                    "value": "http://localhost:8080/plexus.php"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.47483205795288086
+                        },
+                        "line": 29
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I save a new url http://somedomain.com/page_3.htm in slot url_3",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:11",
+                            "arguments": [
+                                {
+                                    "value": "http://somedomain.com/page_3.htm",
+                                    "name": "url"
+                                },
+                                {
+                                    "value": "url_3",
+                                    "name": "slot"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.8398277759552002
+                        },
+                        "line": 30
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect http://somedomain.com/page_3.htm to be saved in slot url_3",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:22",
+                            "arguments": [
+                                {
+                                    "value": "http://somedomain.com/page_3.htm",
+                                    "name": "url"
+                                },
+                                {
+                                    "value": "url_3",
+                                    "name": "slot"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.0297176837921143
+                        },
+                        "line": 31
+                    }
+                ],
+                "line": 37,
+                "uri": "tests/behave/web_interface.feature",
+                "description": "",
+                "id": 7
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario Outline",
+                "name": "Add a new plexus scraper url -- @1.4 ",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "I open the url \"http://localhost:8080/plexus.php\"",
+                        "match": {
+                            "location": "venv/lib/python3.6/site-packages/behave_webdriver/steps/actions_re.py:60",
+                            "arguments": [
+                                {
+                                    "value": "http://localhost:8080/plexus.php"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.5165958404541016
+                        },
+                        "line": 29
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I save a new url http://somedomain.com/page_4.htm in slot url_4",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:11",
+                            "arguments": [
+                                {
+                                    "value": "http://somedomain.com/page_4.htm",
+                                    "name": "url"
+                                },
+                                {
+                                    "value": "url_4",
+                                    "name": "slot"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.9890539646148682
+                        },
+                        "line": 30
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect http://somedomain.com/page_4.htm to be saved in slot url_4",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:22",
+                            "arguments": [
+                                {
+                                    "value": "http://somedomain.com/page_4.htm",
+                                    "name": "url"
+                                },
+                                {
+                                    "value": "url_4",
+                                    "name": "slot"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.9919118881225586
+                        },
+                        "line": 31
+                    }
+                ],
+                "line": 38,
+                "uri": "tests/behave/web_interface.feature",
+                "description": "",
+                "id": 8
+            },
+            {
+                "type": "scenario",
+                "keyword": "Scenario Outline",
+                "name": "Add a new plexus scraper url -- @1.5 ",
+                "tags": [],
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "I open the url \"http://localhost:8080/plexus.php\"",
+                        "match": {
+                            "location": "venv/lib/python3.6/site-packages/behave_webdriver/steps/actions_re.py:60",
+                            "arguments": [
+                                {
+                                    "value": "http://localhost:8080/plexus.php"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 0.7251327037811279
+                        },
+                        "line": 29
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I save a new url http://somedomain.com/page_5.htm in slot url_5",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:11",
+                            "arguments": [
+                                {
+                                    "value": "http://somedomain.com/page_5.htm",
+                                    "name": "url"
+                                },
+                                {
+                                    "value": "url_5",
+                                    "name": "slot"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 2.3025569915771484
+                        },
+                        "line": 30
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "I expect http://somedomain.com/page_5.htm to be saved in slot url_5",
+                        "match": {
+                            "location": "tests/behave/steps/web_interface_steps.py:22",
+                            "arguments": [
+                                {
+                                    "value": "http://somedomain.com/page_5.htm",
+                                    "name": "url"
+                                },
+                                {
+                                    "value": "url_5",
+                                    "name": "slot"
+                                }
+                            ]
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1.015516996383667
+                        },
+                        "line": 31
+                    }
+                ],
+                "line": 39,
+                "uri": "tests/behave/web_interface.feature",
+                "description": "",
+                "id": 9
+            }
+        ],
+        "line": 5,
+        "uri": "tests/behave/web_interface.feature",
+        "id": 2
+    }
+]

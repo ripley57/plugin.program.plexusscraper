@@ -4,9 +4,6 @@ __pycache__/
 # Folder created by "pip install -e ."
 src/plexusscraper.egg-info/
 
-# Created by "behave --junit" 
-reports/
-
 # Created by code coverage report.
 .coverage
 htmlcov/
