@@ -2,6 +2,8 @@ import os
 import re
 import bs4
 
+from plexusscraper.urldownloader import URLDownloader
+
 
 class LinkService:
 	@classmethod
@@ -45,6 +47,12 @@ class LinkService:
 			else:
 				raise ValueError("Bad raw link - {}".format(x))
 		return ace_list + sop_list
+
+
+	@classmethod
+	def extract_links_from_url(cls, url):
+                (status, html) = URLDownloader.download(url)
+                return LinkService.extract_links_from_html(html)
 
 
 	@classmethod

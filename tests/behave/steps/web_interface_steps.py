@@ -21,8 +21,8 @@ def step_impl(context):
 
 @then(u'I expect {url} to be saved in slot {slot}')
 def step_impl(context, url, slot):
-	# This "error" response is expected, due to the fact that we are loading 
-	# a web page from one port (the kodi web server port), and saving our new
+	# The following "error" response is expected, because we are loading a
+	# web page from one port (the kodi web server port), and saving our new
 	# url to a different port (the kodi rpc server). My own research suggests
 	# this is due to <a href="https://en.wikipedia.org/wiki/Same-origin_policy">Same-origin security policy</a>.
 	# The response we are seeing here is actually from our mock kodi rpc server.
@@ -31,7 +31,7 @@ def step_impl(context, url, slot):
 	expected_text = '{"readyState":0,"responseText":"","status":0,"statusText":"error"}'
 	assert_equal(expected_text, result_text)
 
-	context.urls_page.refresh()
+	context.urls_page.reload()
 	expected_text = url
 	actual_text = context.urls_page.get_url(slot)
 	assert_equal(actual_text, expected_text)

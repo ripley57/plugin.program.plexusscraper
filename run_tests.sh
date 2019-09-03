@@ -160,9 +160,12 @@ function run_acceptance_tests()
 # Installation:
 # pip install behave
 #
-# NOTE:	To re-run one particular scenario, insert "@wip" above the scenario definition
-#	in the corresponding .feature file and then run with the --tags"@wip@" option:
-#		behave tests/behave --tags="@wip"
+# To run one particular feature, specify the path to the feature file, e.g.:
+#	behave tests/behave/extract_links.feature
+#
+# To run one particular scenario of a feature, add "@wip" above the scenario in
+# the feature file, and then run:
+#	behave tests/behave --tags="@wip"
 # 
 	test_started "acceptance"
 

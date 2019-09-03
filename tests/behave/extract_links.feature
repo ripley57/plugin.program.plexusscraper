@@ -1,9 +1,9 @@
 @functional
 @fixture.external_website
-Feature: Extract links from an html web page
+Feature: Extract acestream and sopcast links from a web page
 
 
-Scenario Outline: Extract links given the path to a local file
+Scenario Outline: Extract links given the path to a local html file
   Given the local file <file_path>
    When I extract all links
    Then I should get <ace_count> acestream links and <sop_count> sopcast links

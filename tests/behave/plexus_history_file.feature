@@ -1,4 +1,4 @@
-@acceptance
+@functional
 @fixture.external_website
 Feature: Create a plexus history file.
 

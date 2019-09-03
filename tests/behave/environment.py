@@ -14,9 +14,9 @@ import time
 
 from plexusscraper.kodi.settings import KodiSettingsXml
 
-from plexusscraper.testing.browser.browser import Browser
-from plexusscraper.testing.browser.pages.home_page import HomePage
-from plexusscraper.testing.browser.pages.urls_page import UrlsPage
+from plexusscraper.testing.browser import Browser
+from plexusscraper.testing.pages.home_page import HomePage
+from plexusscraper.testing.pages.urls_page import UrlsPage
 from plexusscraper.testing.config import TestConfig
 from plexusscraper.testing.utils import wait_for_port, create_tmpfile, delete_file
 
@@ -24,15 +24,12 @@ from plexusscraper.testing.utils import wait_for_port, create_tmpfile, delete_fi
 #
 # Fixture: web_browser
 #
-#	Launch web browser to simulate user interaction
+#	Launch a web browser to simulate user interaction
 #
 
 @fixture
 def web_browser(context):
-	# Read value from behave.ini
-	#browser = context.config.userdata['browser']
-
-	context.behave_driver = Browser().get_driver()
+	context.behave_driver = Browser.get_driver()
 	context.home_page = HomePage()
 	context.urls_page = UrlsPage()
 
@@ -60,7 +57,6 @@ def external_website(context):
 
 	""" Our custom web server recognises the following as a request to stop cleanly """
 	requests.get('http://localhost:9999/PLEASE_TERMINATE_WEB_SERVER')
-	time.sleep(2)	# Give time for the server to stop.
 
 
 #
@@ -103,14 +99,14 @@ def kodi_mock(context):
 	""" Simulate the Kodi web server and the Kodi rpc server """
 
 	# Start mock kodi web server.
-	wait_for_port(8080, kill_process=True, process_name='php', debug=False)
+	wait_for_port(8080, kill_process=True, process_name='php', debug=True)
 	webinterface_webif_path = TestConfig.get_config_value('webinterface_webif_path')
 	d = TestConfig.get_env_dict(SETTINGS_XML_PATH=context.settings_xml_path)
 	kodi_web_server = psutil.Process(subprocess.Popen(["php", "-S", "localhost:8080", "-t", webinterface_webif_path], env=d).pid)
 	print("kodi_web_server: pid=", kodi_web_server.pid)
 
 	# Start mock kodi rpc server.
-	wait_for_port(9090, kill_process=True, process_name='python', debug=False)
+	wait_for_port(9090, kill_process=True, process_name='python', debug=True)
 	kodi_rpc_server = psutil.Process(subprocess.Popen(["python", "src/plexusscraper/testing/webserver.py", "tests/resources/html/", "9090"], env=d).pid)
 	print("kodi_rpc_server: pid=", kodi_rpc_server.pid)
 

@@ -1,5 +1,4 @@
 from plexusscraper.linkservice import LinkService
-from plexusscraper.urldownloader import URLDownloader
 
 
 class PlexusHistoryFile:
@@ -107,7 +106,6 @@ class PlexusHistoryFile:
 
 	
 	def add_links_from_url(self, url):
-		(status, html) = URLDownloader.download(url)
-		links = LinkService.extract_links_from_html(html)
+		links = LinkService.extract_links_from_url(url)
 		self.add_urls(links)
 

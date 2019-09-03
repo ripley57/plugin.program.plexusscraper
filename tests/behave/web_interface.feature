@@ -7,19 +7,18 @@ As a user
 I should be able to view and save plexus scraper urls
 
 
-# NOTE: This scenario uses built-in step implementations.
+# Note: This scenario uses all built-in step implementations!
 Scenario: Load the main web page
   Given I open the url "http://localhost:8080/index.html"
    Then I expect that the title is "My own Kodi Web Interface Addon"
 
 
-# NOTE: The "When" step has "..click on the link named.." rather 
-#	than simply "..click on the link..". I've done this 
-#	intentionally, so I don't trigger the built-in
-#	step implementation for "..click on the link..".
-#	See https://pypi.org/project/behave-webdriver/
-#	I done this because I want to implement my own step
-#	function.
+# The "When" step has "..click on the link named.." rather 
+# than simply "..click on the link..". I've done this 
+# intentionally, so I don't trigger the built-in
+# step implementation for "..click on the link..".
+# See https://pypi.org/project/behave-webdriver/
+# I done this so I can implement my own step function.
 Scenario: View the plexus scraper urls web page
   Given I open the url "http://localhost:8080/index.html"
    When I click on the link named "plexus.php"
