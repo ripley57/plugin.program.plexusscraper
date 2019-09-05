@@ -16,8 +16,13 @@ import net.masterthought.cucumber.presentation.PresentationMode;
 
 public class GenerateExtraReports {
 
-	String JSONFILES = { "reports/TESTS-functional.json" };
-	File reportOutputDirectory = new File("reports/html");
+	static List<String> JSONFILES = new ArrayList<String>() {
+		{
+			add("reports/TESTS-functional.json");
+		}
+	};
+
+	static File reportOutputDirectory = new File("reports/html");
 
 	private static void addAllJsonFiles(List<String> jsonFiles) {
 		for (String f: GenerateExtraReports.JSONFILES) {
