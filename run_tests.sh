@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 #
-# Run acceptance and unit tests.
+# Run functional and unit tests.
 #
 # Example usage:
 #
 # 	Run all tests (generating json/xml results in the "reports/" directory):
 #	./run_tests.sh all
 #
-#	Run unit and acceptance tests:
-#	./run_tests.sh unit acceptance
+#	Run unit and functional tests:
+#	./run_tests.sh unit functional
 #
 #	To generate html test reports (from the json/xml results):
 #	mvn verify
@@ -16,7 +16,7 @@
 #
 # 	Location of html test reports
 # 	=============================
-# 	acceptance tests 	-	reports/html/cucumber-html-reports/overview-features.html
+# 	functional tests 	-	reports/html/cucumber-html-reports/overview-features.html
 # 	unit tests		-	reports/html/unit/junit-noframes.html
 # 	code coverage		-	reports/html/coverage/index.html
 #
@@ -34,7 +34,7 @@ then
 	cat <<EOI
 
 usage:
-	$SCRIPTNAME [--help|unit|acceptance|coverage|all]
+	$SCRIPTNAME [--help|unit|functional|coverage|all]
 
 EOI
 	exit 1
@@ -155,7 +155,7 @@ then
 fi
 
 
-function run_acceptance_tests()
+function run_functional_tests()
 {
 # We will use Python Behave (https://behave.readthedocs.io)
 #
@@ -176,16 +176,14 @@ function run_acceptance_tests()
 # the feature file, and then run:
 #	behave tests/behave --tags="@wip"
 # 
-	test_started "acceptance"
+	test_started "functional"
 
-	behave tests/behave/ -f json -o "reports/TESTS-behave-acceptance.json"
+	behave tests/behave/ -f json -o "reports/TESTS-behave-functional.json"
 
-	python -m behave2cucumber -i reports/TESTS-behave-acceptance.json -o reports/TESTS-cucumber-acceptance.json
+	python -m behave2cucumber -i reports/TESTS-behave-functional.json -o reports/TESTS-functional.json
+	[ ! -s behave2cucumber.log ] && rm -f behave2cucumber.log	;# Remove zero-byte file that is annoyingly left behind.
 
-	# Remove zero-byte file that is annoyingly left behind.
-	[ ! -s behave2cucumber.log ] && rm -f behave2cucumber.log
-
-	test_completed "acceptance"
+	test_completed "functional"
 }
 
 
@@ -291,8 +289,8 @@ for arg in "$@"; do
 	"unit")
 		run_unit_tests "$@"
 		;;
-	"acceptance")
-		run_acceptance_tests "$@"
+	"functional")
+		run_functional_tests "$@"
 		;;
 	"coverage")
 		run_code_coverage "$@"
@@ -302,7 +300,7 @@ for arg in "$@"; do
 		;;
 	"all")	
 		run_unit_tests "$@"
-		run_acceptance_tests "$@"
+		run_functional_tests "$@"
 		run_code_coverage "$@"
 		;;
 	"run_test")

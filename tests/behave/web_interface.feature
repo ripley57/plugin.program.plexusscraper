@@ -1,4 +1,3 @@
-@acceptance
 @fixture.web_browser
 @fixture.settings_xml
 @fixture.kodi_mock

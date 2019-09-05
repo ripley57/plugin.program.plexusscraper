@@ -16,6 +16,15 @@ import net.masterthought.cucumber.presentation.PresentationMode;
 
 public class GenerateExtraReports {
 
+	String JSONFILES = { "reports/TESTS-functional.json" };
+	File reportOutputDirectory = new File("reports/html");
+
+	private static void addAllJsonFiles(List<String> jsonFiles) {
+		for (String f: GenerateExtraReports.JSONFILES) {
+			addJsonFile(f, jsonFiles);
+		}
+	}
+
 	private static void addJsonFile(String filePath, List<String> jsonFiles) {
 		File f = new File(filePath);
 		if (f.exists()) {
@@ -27,12 +36,9 @@ public class GenerateExtraReports {
 
 	public static void main(String args[]) {
 
-		File reportOutputDirectory = new File("reports/html");
-
-		// Point to our input .json files.
-		List<String> jsonFiles = new ArrayList<String>();
-		addJsonFile("reports/TESTS-cucumber-acceptance.json", jsonFiles);
-		if (jsonFiles.size() == 0) {
+		List<String> jsonFilesList = new ArrayList<String>();
+		addAllJsonFiles(jsonFilesList);
+		if (jsonFilesList.size() == 0) {
 			System.err.println("WARNING: GenerteExtraReports: No json files to convert to html!");
 			return;
 		}
@@ -59,8 +65,7 @@ public class GenerateExtraReports {
 		//classificationFiles.add("properties-2.properties");
 		//configuration.addClassificationFiles(classificationFiles);
 
-		ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
+		ReportBuilder reportBuilder = new ReportBuilder(jsonFilesList, configuration);
 		reportBuilder.generateReports();
 	}
-
 }

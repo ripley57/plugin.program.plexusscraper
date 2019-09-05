@@ -5,9 +5,9 @@
     <!-- 
 	We are using Maven for the following:
 
-	1. Convert BDD acceptance test results from cucumber json format to html.
+	1. Convert Python Behave BDD test results from cucumber json format to html.
 	The output html files can be found here:
-		reports/html/cucumber-html-reports/
+		reports/html/
 
 	2. Convert the JUnit format test results from pytest from xml format to html.
 	The output html file can be found here:

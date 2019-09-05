@@ -33,7 +33,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0011355876922607422
+                            "duration": 0.0011644363403320312
                         },
                         "line": 7
                     },
@@ -46,7 +46,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.372192621231079
+                            "duration": 1.342522382736206
                         },
                         "line": 8
                     },
@@ -70,7 +70,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0006952285766601562
+                            "duration": 0.0005364418029785156
                         },
                         "line": 9
                     }
@@ -100,7 +100,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0005443096160888672
+                            "duration": 0.0005557537078857422
                         },
                         "line": 7
                     },
@@ -113,7 +113,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.2021188735961914
+                            "duration": 1.1867198944091797
                         },
                         "line": 8
                     },
@@ -137,7 +137,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.00046825408935546875
+                            "duration": 0.0004830360412597656
                         },
                         "line": 9
                     }
@@ -167,7 +167,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0005958080291748047
+                            "duration": 0.0005850791931152344
                         },
                         "line": 18
                     },
@@ -180,7 +180,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.3000340461730957
+                            "duration": 1.2834091186523438
                         },
                         "line": 19
                     },
@@ -204,7 +204,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0005261898040771484
+                            "duration": 0.00047278404235839844
                         },
                         "line": 20
                     }
@@ -234,7 +234,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0005621910095214844
+                            "duration": 0.0005583763122558594
                         },
                         "line": 18
                     },
@@ -247,7 +247,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.238783597946167
+                            "duration": 1.2267627716064453
                         },
                         "line": 19
                     },
@@ -271,7 +271,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0004961490631103516
+                            "duration": 0.0004734992980957031
                         },
                         "line": 20
                     }
@@ -321,7 +321,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0018954277038574219
+                            "duration": 0.001992464065551758
                         },
                         "line": 7
                     },
@@ -334,7 +334,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.5719869136810303
+                            "duration": 1.2366664409637451
                         },
                         "line": 8
                     },
@@ -361,7 +361,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0012269020080566406
+                            "duration": 0.0007407665252685547
                         },
                         "line": 9
                     }
@@ -391,7 +391,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0006134510040283203
+                            "duration": 0.0005660057067871094
                         },
                         "line": 27
                     },
@@ -404,7 +404,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.542069673538208
+                            "duration": 1.254845142364502
                         },
                         "line": 28
                     },
@@ -428,7 +428,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.000732421875
+                            "duration": 0.0007390975952148438
                         },
                         "line": 29
                     }
@@ -458,7 +458,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.000675201416015625
+                            "duration": 0.0005691051483154297
                         },
                         "line": 44
                     },
@@ -471,7 +471,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.3391191959381104
+                            "duration": 1.4072070121765137
                         },
                         "line": 45
                     },
@@ -495,7 +495,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0007545948028564453
+                            "duration": 0.000736236572265625
                         },
                         "line": 46
                     }
@@ -545,7 +545,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0006077289581298828
+                            "duration": 0.0005960464477539062
                         },
                         "line": 61
                     },
@@ -558,7 +558,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.009683847427368164
+                            "duration": 0.008939266204833984
                         },
                         "line": 87
                     },
@@ -579,7 +579,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0006899833679199219
+                            "duration": 0.0006732940673828125
                         },
                         "line": 88
                     }
@@ -605,7 +605,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0006098747253417969
+                            "duration": 0.0005598068237304688
                         },
                         "line": 99
                     },
@@ -618,7 +618,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.0008981227874755859
+                            "duration": 0.0008165836334228516
                         },
                         "line": 103
                     },
@@ -637,7 +637,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.00054931640625
+                            "duration": 0.0005285739898681641
                         },
                         "line": 104
                     }
@@ -658,20 +658,16 @@
         "name": "Plexus Scraper web interface",
         "tags": [
             {
-                "name": "@acceptance",
-                "line": 4
-            },
-            {
                 "name": "@fixture.web_browser",
-                "line": 4
+                "line": 3
             },
             {
                 "name": "@fixture.settings_xml",
-                "line": 4
+                "line": 3
             },
             {
                 "name": "@fixture.kodi_mock",
-                "line": 4
+                "line": 3
             }
         ],
         "description": "",
@@ -695,9 +691,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.138979434967041
+                            "duration": 0.6563396453857422
                         },
-                        "line": 12
+                        "line": 11
                     },
                     {
                         "keyword": "Then",
@@ -715,12 +711,12 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.04427385330200195
+                            "duration": 0.033624887466430664
                         },
-                        "line": 13
+                        "line": 12
                     }
                 ],
-                "line": 11,
+                "line": 10,
                 "uri": "tests/behave/web_interface.feature",
                 "description": "",
                 "id": 3
@@ -744,9 +740,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.34502291679382324
+                            "duration": 0.33181095123291016
                         },
-                        "line": 23
+                        "line": 22
                     },
                     {
                         "keyword": "When",
@@ -762,9 +758,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.1911931037902832
+                            "duration": 0.9876649379730225
                         },
-                        "line": 24
+                        "line": 23
                     },
                     {
                         "keyword": "Then",
@@ -775,12 +771,12 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.5502641201019287
+                            "duration": 0.4042627811431885
                         },
-                        "line": 25
+                        "line": 24
                     }
                 ],
-                "line": 22,
+                "line": 21,
                 "uri": "tests/behave/web_interface.feature",
                 "description": "",
                 "id": 4
@@ -804,9 +800,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.7815067768096924
+                            "duration": 0.45405125617980957
                         },
-                        "line": 29
+                        "line": 28
                     },
                     {
                         "keyword": "When",
@@ -826,9 +822,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 2.0945284366607666
+                            "duration": 1.9143619537353516
                         },
-                        "line": 30
+                        "line": 29
                     },
                     {
                         "keyword": "Then",
@@ -848,12 +844,12 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.9068870544433594
+                            "duration": 0.8591060638427734
                         },
-                        "line": 31
+                        "line": 30
                     }
                 ],
-                "line": 35,
+                "line": 34,
                 "uri": "tests/behave/web_interface.feature",
                 "description": "",
                 "id": 5
@@ -877,9 +873,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.528949499130249
+                            "duration": 0.4572432041168213
                         },
-                        "line": 29
+                        "line": 28
                     },
                     {
                         "keyword": "When",
@@ -899,9 +895,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.7981488704681396
+                            "duration": 1.7100567817687988
                         },
-                        "line": 30
+                        "line": 29
                     },
                     {
                         "keyword": "Then",
@@ -921,12 +917,12 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.994509220123291
+                            "duration": 0.8346827030181885
                         },
-                        "line": 31
+                        "line": 30
                     }
                 ],
-                "line": 36,
+                "line": 35,
                 "uri": "tests/behave/web_interface.feature",
                 "description": "",
                 "id": 6
@@ -950,9 +946,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.47483205795288086
+                            "duration": 0.39081430435180664
                         },
-                        "line": 29
+                        "line": 28
                     },
                     {
                         "keyword": "When",
@@ -972,9 +968,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.8398277759552002
+                            "duration": 1.7191262245178223
                         },
-                        "line": 30
+                        "line": 29
                     },
                     {
                         "keyword": "Then",
@@ -994,12 +990,12 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.0297176837921143
+                            "duration": 0.78395676612854
                         },
-                        "line": 31
+                        "line": 30
                     }
                 ],
-                "line": 37,
+                "line": 36,
                 "uri": "tests/behave/web_interface.feature",
                 "description": "",
                 "id": 7
@@ -1023,9 +1019,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.5165958404541016
+                            "duration": 0.37150144577026367
                         },
-                        "line": 29
+                        "line": 28
                     },
                     {
                         "keyword": "When",
@@ -1045,9 +1041,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.9890539646148682
+                            "duration": 1.653778076171875
                         },
-                        "line": 30
+                        "line": 29
                     },
                     {
                         "keyword": "Then",
@@ -1067,12 +1063,12 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.9919118881225586
+                            "duration": 0.9525320529937744
                         },
-                        "line": 31
+                        "line": 30
                     }
                 ],
-                "line": 38,
+                "line": 37,
                 "uri": "tests/behave/web_interface.feature",
                 "description": "",
                 "id": 8
@@ -1096,9 +1092,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 0.7251327037811279
+                            "duration": 0.45928311347961426
                         },
-                        "line": 29
+                        "line": 28
                     },
                     {
                         "keyword": "When",
@@ -1118,9 +1114,9 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 2.3025569915771484
+                            "duration": 1.7846341133117676
                         },
-                        "line": 30
+                        "line": 29
                     },
                     {
                         "keyword": "Then",
@@ -1140,18 +1136,18 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 1.015516996383667
+                            "duration": 0.7979316711425781
                         },
-                        "line": 31
+                        "line": 30
                     }
                 ],
-                "line": 39,
+                "line": 38,
                 "uri": "tests/behave/web_interface.feature",
                 "description": "",
                 "id": 9
             }
         ],
-        "line": 5,
+        "line": 4,
         "uri": "tests/behave/web_interface.feature",
         "id": 2
     }
