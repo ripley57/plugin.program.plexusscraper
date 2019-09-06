@@ -1,0 +1,19 @@
+                                    FILE  DESCRIPTION
+----------------------------------------  ---------------------------------------------------------
+                               README.md  Introduction to the Plexus Scraper Kodi addon. 
+                                build.sh  Script to package application in different ways.
+                                  images  Image files referenced by README.md.
+                                    kodi  Files for packaging as a Kodi addon.
+                                     mvn  Maven-built Java program to generate html test reports.
+                                 pom.xml  Maven project file.
+                              pytest.ini  Pytest config file.
+                                 reports  Output directory for json/xml files and html reports.
+                            run_tests.sh  Script to run tests and generate coverage report.
+                                setup.py  File to create the program as a Python package.
+                                     src  Program source files.
+                         submodule_webif  Git submodule of the dependent webinterface_webif addon. 
+                                   tests  Functional and unit test files.
+                                   utils  Misc utilities used during testing or report creation.
+              screencast - run tests.mp4  Screencast showing the tests running.
+      screencast - view html results.mp4  Screencast showing the html results.
+
