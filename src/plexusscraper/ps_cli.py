@@ -1,12 +1,25 @@
 """ Plexus Scraper CLI """
 
 import click
+import ipaddr
 import re
 
 from plexusscraper.plexushistoryfile import PlexusHistoryFile
 
 
-class Url(click.ParamType):
+class PS_IPAddress(click.ParamType):
+    def __init__(self):
+        self.name = 'ip'
+
+    def convert(self, value, param, ctx):
+        try:
+            found = ipaddr.IPAddress(value)
+        except:
+            self.fail(f'{value} is not a valid ip address', param, ctx)
+        return value
+        
+
+class PS_Url(click.ParamType):
     def __init__(self):
         self.name = 'url'
 
@@ -17,7 +30,7 @@ class Url(click.ParamType):
         return value
 
 
-class Sopcast(click.ParamType):
+class PS_Sopcast(click.ParamType):
     def __init__(self):
         self.name = 'sopcast'
 
@@ -28,7 +41,7 @@ class Sopcast(click.ParamType):
         return value
 
 
-class Acestream(click.ParamType):
+class PS_Acestream(click.ParamType):
     def __init__(self):
         self.name = 'acestream'
 
@@ -47,12 +60,13 @@ CLI to the PlexusScraper Python package.\n
     pass
 
 @main.command()
-@click.option('--url', '-u', 		type=Url(), 		multiple=True, help='website URL')
+@click.option('--url', '-u', 		type=PS_Url(), 		multiple=True, help='website URL')
 @click.option('--html-file', '-f', 	type=click.Path(), 	multiple=True, help='path to a local html file')
-@click.option('--sopcast', '-s', 	type=Sopcast(), 	multiple=True, help='sopcast url')
-@click.option('--acestream', '-a', 	type=Acestream(), 	multiple=True, help='acestream url')
+@click.option('--sopcast', '-s', 	type=PS_Sopcast(), 	multiple=True, help='sopcast url')
+@click.option('--acestream', '-a', 	type=PS_Acestream(), 	multiple=True, help='acestream url')
 @click.option('--history-file', is_flag=True, help='Generate Plexus history.txt content')
-def scrape(url, html_file, sopcast, acestream, history_file):
+@click.option('--install-ip', '-i',	type=PS_IPAddress(),	multiple=False, help='ip address of pi to copy history file to')
+def scrape(url, html_file, sopcast, acestream, history_file, install_ip):
     """
     Scrape sopcast and acestream urls from various sources. 
     If requested, display the scraped urls in Plexus history.txt format; otherwise display them as raw links.
@@ -60,7 +74,7 @@ def scrape(url, html_file, sopcast, acestream, history_file):
 
     Example:\n
         
-    python ps_cli.py scrape --url http://someurl.com --html-file /storage/file.html --acestream acestream://78637dab85e7948057165ad0c80b3db475dd9c3d --sopcast sop://broker.sopcast.com:3912/265589
+    python ps_cli.py scrape --url http://someurl.com --html-file /storage/file.html --acestream acestream://78637dab85e7948057165ad0c80b3db475dd9c3d --sopcast sop://broker.sopcast.com:3912/265589 --history-file --ip 192.168.0.13
     """
     ps = PlexusHistoryFile()
 
@@ -77,7 +91,10 @@ def scrape(url, html_file, sopcast, acestream, history_file):
         ps.add_links_from_string(a)
 
     if history_file:
-        print(ps.text)
+        if install_ip:
+            ps.install_history_file_using_scp(install_ip)
+        else:
+            print(ps.text)
     else:
         ace_list = ps.get_ace_list()
         count = len(ace_list)

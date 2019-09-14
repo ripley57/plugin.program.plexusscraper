@@ -38,7 +38,7 @@ Usage: scrape [OPTIONS]
        python ps_cli.py scrape --url http://someurl.com --html-file
       /storage/file.html --acestream
       acestream://78637dab85e7948057165ad0c80b3db475dd9c3d --sopcast
-      sop://broker.sopcast.com:3912/265589
+      sop://broker.sopcast.com:3912/265589 --history-file --ip 192.168.0.13
 
 Options:
   -u, --url URL              website URL
@@ -46,6 +46,7 @@ Options:
   -s, --sopcast SOPCAST      sopcast url
   -a, --acestream ACESTREAM  acestream url
   --history-file             Generate Plexus history.txt content
+  -i, --install-ip IP        ip address of pi to copy history file to
   --help                     Show this message and exit.
 """
 	assert result.output == expected_result

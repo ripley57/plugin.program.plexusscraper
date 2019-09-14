@@ -1,10 +1,19 @@
 from plexusscraper.linkservice import LinkService
 
+import os
+import subprocess
+import tempfile
+
 
 class PlexusHistoryFile:
 
 	ACE_SUFFIX = '|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png'
 	SOP_SUFFIX = '|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg'
+
+	HISTORY_FILE_LOCATION_PI = '/storage/.kodi/userdata/addon_data/program.plexus/history.txt'
+
+	SCP_TIMEOUT_SECS = 10
+
 
 	def __init__(self):
 		self.ace_list = []	# title,link, e.g. [('','acestream://...'),('MYNAME','acestream:/...'),...
@@ -108,4 +117,27 @@ class PlexusHistoryFile:
 	def add_links_from_url(self, url):
 		links = LinkService.extract_links_from_url(url)
 		self.add_urls(links)
+
+
+	def _build_scp_cmd(self, new_history_file_path, ip):
+		return ['scp', '-v', '-o', 'ConnectTimeout=' + str(PlexusHistoryFile.SCP_TIMEOUT_SECS), new_history_file_path, 'root@' + ip + ':' + PlexusHistoryFile.HISTORY_FILE_LOCATION_PI]
+
+
+	def _create_tmp_history_file(self):
+		fd, path = tempfile.mkstemp(suffix='.txt', prefix='history_', text=True)
+		with os.fdopen(fd, 'w') as f:
+			f.write(self.text)
+		return path
+
+
+	def install_history_file_using_scp(self, ip):
+		tmp_history_file = self._create_tmp_history_file()
+		self._install_history_file_using_scp(self._build_scp_cmd(tmp_history_file, ip))
+		os.unlink(tmp_history_file)
+	
+
+	def _install_history_file_using_scp(self, scp_cmd):
+		print('\n' + ' '.join(scp_cmd) + ' ...\n')
+		x = ' '.join(scp_cmd)
+		subprocess.call(x, shell=True)
 
