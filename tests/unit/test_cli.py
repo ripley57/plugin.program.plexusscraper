@@ -45,8 +45,10 @@ Options:
   -f, --html-file PATH       path to a local html file
   -s, --sopcast SOPCAST      sopcast url
   -a, --acestream ACESTREAM  acestream url
-  --history-file             Generate Plexus history.txt content
-  -i, --install-ip IP        ip address of pi to copy history file to
+  --history-file             Generate Plexus history.txt content (to stdout)
+  -i, --install-ip IP        scp history.txt file to ip address
+  --osmc                     Target Kodi system is OSMC
+  --openelec                 Target Kodi system is OpenElec
   --help                     Show this message and exit.
 """
 	assert result.output == expected_result

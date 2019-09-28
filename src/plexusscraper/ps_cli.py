@@ -64,9 +64,11 @@ CLI to the PlexusScraper Python package.\n
 @click.option('--html-file', '-f', 	type=click.Path(), 	multiple=True, help='path to a local html file')
 @click.option('--sopcast', '-s', 	type=PS_Sopcast(), 	multiple=True, help='sopcast url')
 @click.option('--acestream', '-a', 	type=PS_Acestream(), 	multiple=True, help='acestream url')
-@click.option('--history-file', is_flag=True, help='Generate Plexus history.txt content')
-@click.option('--install-ip', '-i',	type=PS_IPAddress(),	multiple=False, help='ip address of pi to copy history file to')
-def scrape(url, html_file, sopcast, acestream, history_file, install_ip):
+@click.option('--history-file', is_flag=True, help='Generate Plexus history.txt content (to stdout)')
+@click.option('--install-ip', '-i',	type=PS_IPAddress(),	multiple=False, help='scp history.txt file to ip address')
+@click.option('--osmc', is_flag=True, help='Target Kodi system is OSMC')
+@click.option('--openelec', is_flag=True, help='Target Kodi system is OpenElec')
+def scrape(url, html_file, sopcast, acestream, history_file, install_ip, osmc, openelec):
     """
     Scrape sopcast and acestream urls from various sources. 
     If requested, display the scraped urls in Plexus history.txt format; otherwise display them as raw links.
@@ -92,6 +94,7 @@ def scrape(url, html_file, sopcast, acestream, history_file, install_ip):
 
     if history_file:
         if install_ip:
+            ps.set_plexus_helper(get_kodi_type_str(osmc, openelec))
             ps.install_history_file_using_scp(install_ip)
         else:
             print(ps.text)
@@ -112,6 +115,16 @@ def scrape(url, html_file, sopcast, acestream, history_file, install_ip):
 
         if count > 0:
             print("")
+
+
+def get_kodi_type_str(osmc, openelec):
+	kodi_type = 'openelec'
+	if osmc:
+		kodi_type = 'osmc'
+	elif openelec:
+		kodi_type = 'openelec'
+	return kodi_type
+
 
 if __name__ == "__main__":
     main()

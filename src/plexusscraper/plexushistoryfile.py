@@ -5,19 +5,44 @@ import subprocess
 import tempfile
 
 
-class PlexusHistoryFile:
+class PlexusHelper:
+	pass
 
+
+class PlexusHelperOSMC(PlexusHelper):
+	ACE_SUFFIX = '|1|/home/osmc/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png'
+	SOP_SUFFIX = '|2|/home/osmc/.kodi/addons/program.plexus/resources/art/sopcast-menu-item.png'
+	HISTORY_FILE_LOCATION_PI = '/home/osmc/.kodi/userdata/addon_data/program.plexus/history.txt'
+
+
+class PlexusHelperOpenElec(PlexusHelper):
 	ACE_SUFFIX = '|1|/storage/.kodi/addons/program.plexus/resources/art/acestream-menu-item.png'
 	SOP_SUFFIX = '|2|/storage/.kodi/addons/program.plexus/resources/art/sopcast_logo.jpg'
-
 	HISTORY_FILE_LOCATION_PI = '/storage/.kodi/userdata/addon_data/program.plexus/history.txt'
 
-	SCP_TIMEOUT_SECS = 10
 
+class PlexusHelperFactory:
+	@classmethod
+	def createHelper(cls, kodi_type='openelec'):
+		if kodi_type == 'osmc':
+			return PlexusHelperOSMC()
+		elif kodi_type == 'openelec':
+			return PlexusHelperOpenElec()
+		else:
+			return PlexusHelperOpenElec()
+
+
+class PlexusHistoryFile:
+
+	SCP_TIMEOUT_SECS = 10
 
 	def __init__(self):
 		self.ace_list = []	# title,link, e.g. [('','acestream://...'),('MYNAME','acestream:/...'),...
 		self.sop_list = []	# title,link, e.g. [('SOMENAME','sop://...'),('','sop://...'),...
+		self.plexus_helper = PlexusHelperFactory.createHelper()
+
+	def set_plexus_helper(self, kodi_type):
+		self.plexus_helper = PlexusHelperFactory.createHelper(kodi_type)
 
 	def get_ace_list(self):
  		return self.ace_list
@@ -73,11 +98,11 @@ class PlexusHistoryFile:
 
 
 	def __build_ace_history_line(self, title, link):
-		return title + "|" + link + self.__class__.ACE_SUFFIX
+		return title + "|" + link + self.plexus_helper.ACE_SUFFIX
 
 
 	def __build_sop_history_line(self, title, link):
-		return title + "|" + link + self.__class__.SOP_SUFFIX
+		return title + "|" + link + self.plexus_helper.SOP_SUFFIX
 
 
 	def __create_link_tuple(self, x):
@@ -120,7 +145,7 @@ class PlexusHistoryFile:
 
 
 	def _build_scp_cmd(self, new_history_file_path, ip):
-		return ['scp', '-v', '-o', 'ConnectTimeout=' + str(PlexusHistoryFile.SCP_TIMEOUT_SECS), new_history_file_path, 'root@' + ip + ':' + PlexusHistoryFile.HISTORY_FILE_LOCATION_PI]
+		return ['scp', '-v', '-o', 'ConnectTimeout=' + str(PlexusHistoryFile.SCP_TIMEOUT_SECS), new_history_file_path, 'root@' + ip + ':' + self.plexus_helper.HISTORY_FILE_LOCATION_PI]
 
 
 	def _create_tmp_history_file(self):
@@ -133,7 +158,10 @@ class PlexusHistoryFile:
 	def install_history_file_using_scp(self, ip):
 		tmp_history_file = self._create_tmp_history_file()
 		self._install_history_file_using_scp(self._build_scp_cmd(tmp_history_file, ip))
-		os.unlink(tmp_history_file)
+		try:
+			os.unlink(tmp_history_file)
+		except:
+			pass
 	
 
 	def _install_history_file_using_scp(self, scp_cmd):

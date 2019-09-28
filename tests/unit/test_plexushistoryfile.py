@@ -20,7 +20,7 @@ ACE_03|acestream://ebace2db83260b4d6097f0a52e86b2aee3c3bba9|1|/storage/.kodi/add
 """
 		history_file = PlexusHistoryFile()
 		history_file.add_urls(urls)
-		self.assertEqual(history_file.text, expected_content, 'acestream urls not handled correctly')
+		assert history_file.text == expected_content
 
 
 	def test_add_sopcast_urls(self):
@@ -34,7 +34,7 @@ SOP_03|sop://broker.sopcast.com:3912/265589|2|/storage/.kodi/addons/program.plex
 """
 		history_file = PlexusHistoryFile()
 		history_file.add_urls(urls)
-		self.assertEqual(history_file.text, expected_content, 'sopcast urls not handled correctly')
+		assert history_file.text == expected_content
 
 
 	def test_add_raw_urls(self):
@@ -48,23 +48,49 @@ SOP_EX_1|sop://broker.sopcast.com:3912/26475|2|/storage/.kodi/addons/program.ple
 		history_file = PlexusHistoryFile()
 		links = LinkService.extract_links_from_string(raw_urls)
 		history_file.add_urls(links)
-		self.assertEqual(history_file.text, expected_content, 'raw acestream or sopcast urls not handled correctly')
+		assert history_file.text == expected_content
 
 
 	def test_install_history_file_using_scp(self, mocker):
-		tmp_file = '/tmp/history_123456.txt'
-
 		# Mock PlexusHistoryFile._create_tmp_history_file()
 		mocker.patch.object(PlexusHistoryFile, '_create_tmp_history_file')
-		PlexusHistoryFile._create_tmp_history_file.return_value = tmp_file
+		PlexusHistoryFile._create_tmp_history_file.return_value = '/tmp/history_123456.txt'
 		
 		# Mock PlexusHistoryFile._install_history_file_using_scp()
 		mocker.patch.object(PlexusHistoryFile, '_install_history_file_using_scp')
 
-		ip = '192.168.0.13'
 		history_file = PlexusHistoryFile()
 		history_file.install_history_file_using_scp('192.168.0.13')
-		expected_cmd = ['scp', '/tmp/history_123456.txt', 'root@192.168.0.13:/storage/.kodi/userdata/addon_data/program.plexus/history.txt']
+		expected_cmd = ['scp', '-v', '-o', 'ConnectTimeout=10', '/tmp/history_123456.txt', 'root@192.168.0.13:/storage/.kodi/userdata/addon_data/program.plexus/history.txt']
+		PlexusHistoryFile._install_history_file_using_scp.assert_called_with(expected_cmd)
 
+
+	def test_install_history_file_using_scp_osmc(self, mocker):
+		# Mock PlexusHistoryFile._create_tmp_history_file()
+		mocker.patch.object(PlexusHistoryFile, '_create_tmp_history_file')
+		PlexusHistoryFile._create_tmp_history_file.return_value = '/tmp/history_123456.txt'
+
+		# Mock PlexusHistoryFile._install_history_file_using_scp()
+		mocker.patch.object(PlexusHistoryFile, '_install_history_file_using_scp')
+
+		history_file = PlexusHistoryFile()
+		history_file.set_plexus_helper('osmc')
+		history_file.install_history_file_using_scp('192.168.0.13')
+		expected_cmd = ['scp', '-v', '-o', 'ConnectTimeout=10', '/tmp/history_123456.txt', 'root@192.168.0.13:/home/osmc/.kodi/userdata/addon_data/program.plexus/history.txt']
+		PlexusHistoryFile._install_history_file_using_scp.assert_called_with(expected_cmd)
+
+
+	def test_install_history_file_using_scp_openelec(self, mocker):
+		# Mock PlexusHistoryFile._create_tmp_history_file()
+		mocker.patch.object(PlexusHistoryFile, '_create_tmp_history_file')
+		PlexusHistoryFile._create_tmp_history_file.return_value = '/tmp/history_123456.txt'
+
+		# Mock PlexusHistoryFile._install_history_file_using_scp()
+		mocker.patch.object(PlexusHistoryFile, '_install_history_file_using_scp')
+
+		history_file = PlexusHistoryFile()
+		history_file.set_plexus_helper('openelec')
+		history_file.install_history_file_using_scp('192.168.0.13')
+		expected_cmd = ['scp', '-v', '-o', 'ConnectTimeout=10', '/tmp/history_123456.txt', 'root@192.168.0.13:/storage/.kodi/userdata/addon_data/program.plexus/history.txt']
 		PlexusHistoryFile._install_history_file_using_scp.assert_called_with(expected_cmd)
 
